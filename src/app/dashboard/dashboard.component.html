@@ -1,1 +1,9 @@
-dashbord works!
+<div *ngIf="isLogged">
+  <p>dashboard works!</p>
+</div>
+
+
+<!-- se nao estiver logado -->
+<div *ngIf="!isLogged">
+  <p>dashboard works!</p>
+</div>

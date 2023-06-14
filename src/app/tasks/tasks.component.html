@@ -1,1 +1,9 @@
-tasks works
+<div *ngIf="isLogged">
+  <p>tasks works</p>
+</div>
+
+
+<!-- se nao estiver logado -->
+<div *ngIf="!isLogged">
+  <p></p>
+</div>

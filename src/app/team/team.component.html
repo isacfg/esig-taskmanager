@@ -1,1 +1,9 @@
-team works
+<div *ngIf="isLogged">
+  <p>team works</p>
+</div>
+
+
+<!-- se nao estiver logado -->
+<div *ngIf="!isLogged">
+  <p></p>
+</div>

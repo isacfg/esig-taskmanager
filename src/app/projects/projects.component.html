@@ -1,1 +1,9 @@
-projects works
+<div *ngIf="isLogged">
+  <p>projects works</p>
+</div>
+
+
+<!-- se nao estiver logado -->
+<div *ngIf="!isLogged">
+  <p></p>
+</div>
