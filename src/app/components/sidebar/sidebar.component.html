@@ -1,0 +1,48 @@
+<div class="drawer lg:drawer-open">
+  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col items-center justify-center">
+    <!-- Page content here -->
+    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+
+  </div>
+  <div class="drawer-side">
+    <label for="my-drawer-2" class="drawer-overlay"></label>
+
+    <ul class="menu p-4 w-60 h-full bg-slate-50  gap-y-16 flex flex-col items-center ">
+      <img src="../../../assets/logo.svg" alt="Logo eTasks" class="w-8/12" srcset="">
+
+
+
+      <div class="flex flex-col gap-y-4">
+        <button class="btn btn-secondary">
+          Adicionar tarefa
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <div>
+          <!-- Sidebar content here -->
+          <li class="hover:bg-pink-200 rounded-md "><a id="sidebarItem"
+              class="text-new-black font-medium hover:bg-pink-200 rounded-md  hover:text-new-black text-base   "
+              routerLink=""><fa-icon [icon]="faChartLine"></fa-icon>
+              Dashboard</a>
+          </li>
+          <li class="hover:bg-pink-200 rounded-md "><a id="sidebarItem"
+              class="text-new-black font-medium hover:bg-pink-200 rounded-md  hover:text-new-black text-base  "
+              routerLink="tasks"><fa-icon [icon]="faListCheck"></fa-icon>
+              Tarefas</a>
+          </li>
+          <li class="hover:bg-pink-200 rounded-md "><a id="sidebarItem"
+              class="text-new-black font-medium hover:bg-pink-200 rounded-md  hover:text-new-black text-base  "
+              routerLink="projects"><fa-icon [icon]="faFolder"></fa-icon>
+              Projetos</a>
+          </li>
+          <li class="hover:bg-pink-200 rounded-md "><a id="sidebarItem"
+              class="text-new-black font-medium hover:bg-pink-200 rounded-md  hover:text-new-black text-base  "
+              routerLink="team"><fa-icon [icon]="faCircleUser"></fa-icon>
+              Time</a>
+          </li>
+        </div>
+      </div>
+    </ul>
+
+  </div>
+</div>
