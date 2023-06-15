@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { CreateModalComponent } from './components/create-modal/create-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     LoginComponent,
     TaskItemComponent,
     LoadingComponent,
+    CreateModalComponent,
   ],
   imports: [
     FormsModule,

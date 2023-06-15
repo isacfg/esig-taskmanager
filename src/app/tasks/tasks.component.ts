@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
+import { Timestamp } from 'firebase/firestore';
 
 import {
   faPlus,
@@ -24,6 +25,15 @@ export class TasksComponent implements OnInit {
   faInfo = faCircleInfo;
   faEdit = faPen;
   faDelete = faTrash;
+
+  // criar tarefa
+  description: string = '';
+  prazo;
+  prioridade: string = '';
+  projeto: string = '';
+  responsavel: string = '';
+  status: string = '';
+  title: string = '';
 
   tasks = [
     {
@@ -58,7 +68,7 @@ export class TasksComponent implements OnInit {
     },
   ];
 
-  private uid: string = '';
+  public uid: string = '';
 
   // pegar tarefas do banco de dados
   async getTasks() {
@@ -70,6 +80,48 @@ export class TasksComponent implements OnInit {
     let tasksR = await this.tarefasService.getTasksByUserID(this.uid);
     console.log(tasksR);
     this.tasks = tasksR;
+  }
+
+  // criar tarefa
+  async createTask() {
+    // cria a tarefa no banco de dados
+    let s = new Date(this.prazo);
+    this.prazo = Timestamp.fromDate(s);
+
+    await this.tarefasService.createTask({
+      title: this.title,
+      description: this.description,
+      prioridade: this.prioridade,
+      status: this.status,
+      prazo: this.prazo,
+      responsavel: this.responsavel,
+      projeto: this.projeto,
+      userID: this.uid,
+    });
+
+    // atualiza a lista de tarefas
+    this.getTasks();
+
+    // limpa os campos
+    this.title = '';
+    this.description = '';
+    this.prioridade = '';
+    this.status = '';
+    this.prazo = '';
+    this.responsavel = '';
+    this.projeto = '';
+
+    // fecha o modal
+    let closeBtn = document.getElementById('closeBtn');
+    closeBtn?.click();
+  }
+
+  // deletar tarefa
+  async deleteTarefa(id: string) {
+    await this.tarefasService.deleteTask(id);
+    this.getTasks();
+    let closeBtn = document.getElementById('deleteModalBtn');
+    closeBtn?.click();
   }
 
   isLogged: boolean = false;

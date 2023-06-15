@@ -186,7 +186,7 @@ export class TarefasService {
   async createTask(task: any) {
     try {
       const docRef = await addDoc(collection(this.db, 'tasks'), task);
-      console.log('Adicionado com sucesso: ', docRef.id);
+      console.log('Criado com sucesso: ', docRef.id);
     } catch (e) {
       console.error('Erro: ', e);
     }
@@ -202,11 +202,11 @@ export class TarefasService {
     }
   }
 
-  async deleteTask(task: any) {
+  // delete using only the id
+  async deleteTask(id: string) {
     try {
-      const docRef = doc(this.db, 'tasks', task.id);
-      await deleteDoc(docRef);
-      console.log('Deletado com sucesso: ', docRef.id);
+      await deleteDoc(doc(this.db, 'tasks', id));
+      console.log('Deletado com sucesso: ', id);
     } catch (e) {
       console.error('Erro: ', e);
     }
