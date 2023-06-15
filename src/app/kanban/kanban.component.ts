@@ -74,6 +74,10 @@ export class KanbanComponent implements OnInit {
       } else {
         console.log('Usuario não logado');
         this.isLogged = false;
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 500);
       }
     });
 
