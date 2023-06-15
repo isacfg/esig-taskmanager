@@ -22,7 +22,6 @@
       <select [(ngModel)]="responsavelSearch" name="responsavelSearch" id="responsaveis"
         class="select select-bordered  max-w-xs">
         <option value="default" disabled selected>Responsável: </option>
-        <option value="all">Todos</option>
         <ng-container *ngFor="let res of arrayResponsaveis">
           <option>{{res}}</option>
         </ng-container>
@@ -30,7 +29,6 @@
       <!-- status -->
       <select [(ngModel)]="statusSearch" name="statusSearch" class="select select-bordered max-w-xs">
         <option value="default" disabled selected>Status: </option>
-        <option value="all">Todos</option>
         <option>Não iniciada</option>
         <option>Em andamento</option>
         <option>Concluída</option>
@@ -38,7 +36,6 @@
       <!-- prioridade -->
       <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select select-bordered max-w-xs">
         <option value="default" disabled selected>Prioridade: </option>
-        <option value="all">Todos</option>
         <option>Alta</option>
         <option>Média</option>
         <option>Baixa</option>

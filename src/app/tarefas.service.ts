@@ -89,6 +89,31 @@ export class TarefasService {
     }
   }
 
+  // responsavel, status
+  async getTasksByResponsavelStatusUserID(
+    responsavel: string,
+    status: string,
+    userID: string
+  ) {
+    try {
+      const q = query(
+        collection(this.db, 'tasks'),
+        where('responsavel', '==', responsavel),
+        where('status', '==', status),
+        where('userID', '==', userID)
+      );
+      const querySnapshot = await getDocs(q);
+      const tasks: any[] = [];
+      querySnapshot.forEach((doc) => {
+        tasks.push({ id: doc.id, ...doc.data() });
+      });
+      return tasks;
+    } catch (e) {
+      console.error('Erro: ', e);
+      return [];
+    }
+  }
+
   async getTasksByStatusUserID(status: string, userID: string) {
     try {
       const q = query(
