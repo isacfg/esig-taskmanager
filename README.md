@@ -1,5 +1,7 @@
 # eTasks
 
+![Logo eTasks](eTasks.png)
+
 Projeto para o processo seletivo da ESIG, design criado por mim usando o Figma. Deploy no vercel pois o Heroku estava pedindo cartão de crédito para fazer o deploy.
 
 ## Links
