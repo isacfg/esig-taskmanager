@@ -41,38 +41,7 @@ export class TasksComponent implements OnInit {
   selectedID: string = '';
 
   tasksFiltro = [];
-  tasks = [
-    {
-      id: 1,
-      title: 'Tarefa 1',
-      description: 'Descrição da tarefa 1',
-      prioridade: 'Alta',
-      status: 'Não iniciada',
-      prazo: '2021-10-10',
-      responsavel: 'Laura',
-      projeto: 'Projeto 1',
-    },
-    {
-      id: 2,
-      title: 'Tarefa 2',
-      description: 'Descrição da tarefa 2',
-      prioridade: 'Média',
-      status: 'Em andamento',
-      prazo: '2021-10-10',
-      responsavel: 'Laura',
-      projeto: 'Projeto 2',
-    },
-    {
-      id: 3,
-      title: 'Tarefa 3',
-      description: 'Descrição da tarefa 3',
-      prioridade: 'Baixa',
-      status: 'Concluída',
-      prazo: '2021-10-10',
-      responsavel: 'Laura',
-      projeto: 'Projeto 3',
-    },
-  ];
+  tasks = [];
 
   public uid: string = '';
 
