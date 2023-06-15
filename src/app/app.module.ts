@@ -25,6 +25,8 @@ import { FormsModule } from '@angular/forms';
 // import { AngularFireModule } from '@angular/fire/compat';
 // import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginComponent } from './login/login.component';
+import { TaskItemComponent } from './task-item/task-item.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { LoginComponent } from './login/login.component';
     TeamComponent,
     TasksComponent,
     LoginComponent,
+    TaskItemComponent,
+    LoadingComponent,
   ],
   imports: [
     FormsModule,

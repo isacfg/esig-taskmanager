@@ -1,9 +1,111 @@
-<div *ngIf="isLogged">
-  <p>tasks works</p>
+<div *ngIf="isLogged" class="container mx-auto mt-2 ">
+  <div class="topnav flex flex-row justify-between w-full mx-auto px-8 py-4">
+    <!-- select project -->
+    <div>
+      <select class="select select-bordered w-full max-w-xs">
+        <option disabled selected>Projeto:</option>
+        <option>Han Solo</option>
+        <option>Greedo</option>
+      </select>
+    </div>
+
+    <!-- adicionar tarefa -->
+    <button class="btn btn-secondary text-white">
+      Adicionar tarefa
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+  </div>
+
+  <!-- search -->
+  <div class="flex w-full mx-auto px-8 mt-2 gap-x-2">
+    <input type="text" placeholder="Buscar por título, descroção ou id" class="input input-bordered w-2/6" />
+
+    <!-- responsavel -->
+    <select class="select select-bordered  max-w-xs">
+      <option disabled selected>Responsável: </option>
+      <option>Han Solo</option>
+      <option>Greedo</option>
+    </select>
+    <!-- status -->
+    <select class="select select-bordered max-w-xs">
+      <option disabled selected>Status: </option>
+      <option>Han Solo</option>
+      <option>Greedo</option>
+    </select>
+
+    <button class="btn btn-secondary">
+      <fa-icon class="text-white text-xl" [icon]="faSearch"></fa-icon>
+    </button>
+
+  </div>
+
+
+  <!-- divider -->
+  <div class="flex flex-col w-full mx-auto px-8 border-opacity-50">
+    <div class="divider"></div>
+  </div>
+
+  <!-- tasks container -->
+
+  <div class="overflow-x-auto w-full mx-auto px-8">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+
+          <th>Tarefa</th>
+          <th>Membros</th>
+          <th>Prazo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- individual tasks -->
+        <tr *ngFor="let task of tasks">
+          <td>
+            <div class="flex items-center space-x-3">
+
+              <div>
+                <div class="font-bold">{{task.title}}</div>
+                <div class="flex gap-x-1">
+                  <span class="badge badge-sm text-white"
+                    [ngClass]="{'badge-error text-white': task.prioridade === 'Alta', 'badge-warning text-white': task.prioridade === 'Média', 'badge-success text-white': task.prioridade === 'Baixa' }">{{task.prioridade}}</span>
+                  <span class="badge badge-ghost badge-sm">{{task.status}}</span>
+                  <span class="badge badge-ghost badge-sm">{{task.projeto}}</span>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="font-bold">{{task.responsavel}}</div>
+          </td>
+          <td>{{task.prazo}}</td>
+          <th>
+            <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faInfo"></fa-icon></button>
+            <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faEdit"></fa-icon></button>
+            <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faDelete"></fa-icon></button>
+          </th>
+        </tr>
+        <!-- individual tasks -->
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>Tarefa</th>
+          <th>Membros</th>
+          <th>Prazo</th>
+          <th></th>
+        </tr>
+      </tfoot>
+
+    </table>
+  </div>
+
 </div>
 
 
 <!-- se nao estiver logado -->
-<div *ngIf="!isLogged">
-  <p></p>
+<div *ngIf="!isLogged" class="w-full h-screen container mx-auto flex justify-center items-center">
+  <app-loading></app-loading>
 </div>
