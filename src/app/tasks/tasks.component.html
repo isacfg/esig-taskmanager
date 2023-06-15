@@ -86,9 +86,11 @@
           <td>{{task.prazo}}</td>
           <th>
             <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faInfo"></fa-icon></button>
-            <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faEdit"></fa-icon></button>
-            <button onclick="deleteModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon
-                [icon]="faDelete"></fa-icon></button>
+            <button
+              (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+              onclick="editModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon [icon]="faEdit"></fa-icon></button>
+            <button (click)="selectTarefa(task.id)" onclick="deleteModal.showModal()"
+              class="btn btn-ghost btn-xs"><fa-icon [icon]="faDelete"></fa-icon></button>
           </th>
         </tr>
         <!-- individual tasks -->
@@ -165,15 +167,72 @@
     </form>
   </dialog>
 
+  <!-- modal de editar -->
+  <dialog id="editModal" class="modal">
+    <form method="dialog" class="modal-box  w-3/4 max-w-4xl">
+      <h3 class="font-bold text-lg">Adicionar tarefa</h3>
+      <div class="w-full   ">
+        <div class="flex flex-col">
+          <input [(ngModel)]="title" type="text" name="title" placeholder="Nome da tarefa"
+            class="input input-bordered  bg-white mt-4  " />
+
+          <textarea [(ngModel)]="description" name="description" class="textarea textarea-bordered mt-4"
+            placeholder="Descrição"></textarea>
+
+          <!-- responsavel -->
+          <input [(ngModel)]="responsavel" name="responsavel" type="text" placeholder="Responsável"
+            class="input input-bordered  bg-white mt-4  " />
+
+          <!-- projeto -->
+          <input [(ngModel)]="projeto" name="projeto" type="text" placeholder="Projeto"
+            class="input input-bordered  bg-white mt-4  " />
+
+
+          <div class="flex flex-wrap gap-x-2">
+            <!-- prioridade -->
+            <select [(ngModel)]="prioridade" name="prioridade" class="select select-bordered  max-w-xs mt-4">
+              <option disabled selected>Prioridade: </option>
+              <option>Alta</option>
+              <option>Média</option>
+              <option>Baixa</option>
+            </select>
+
+            <!-- status -->
+            <select [(ngModel)]="status" name="status" class="select select-bordered  max-w-xs mt-4">
+              <option disabled selected>Status: </option>
+              <option>Não iniciada</option>
+              <option>Em andamento</option>
+              <option>Concluída</option>
+            </select>
+
+            <!-- prazo -->
+            <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
+              class="input input-bordered  bg-white mt-4  " />
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+      <div class="modal-action">
+
+        <button id="closeBtnEdit" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
+        <a class="btn bg-green-500 hover:bg-green-800 hover:text-white text-white" (click)="updateTarefa()">Editar</a>
+      </div>
+    </form>
+  </dialog>
+
   <!-- modal de deletar -->
-  <!-- Open the modal using ID.showModal() method -->
   <dialog id="deleteModal" class="modal">
     <form method="dialog" class="modal-box">
       <h3 class="font-bold text-lg">Deletar Tarefa</h3>
       <p class="py-4">Tem certeza que quer deletar essa tarefa?</p>
       <div class="modal-action">
-        <button id="deleteModalBtn" class="btn">Cancelar</button>
-        <a class="btn bg-red-500 text-white" (click)="deleteTarefa(task)">Deletar</a>
+        <button (click)="selectTarefa('')" id="deleteModalBtn" class="btn">Cancelar</button>
+        <a class="btn bg-red-500 text-white" (click)="deleteTarefa()">Deletar</a>
       </div>
 
     </form>

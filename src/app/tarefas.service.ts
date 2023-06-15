@@ -192,9 +192,9 @@ export class TarefasService {
     }
   }
 
-  async updateTask(task: any) {
+  async updateTask(id, task: any) {
     try {
-      const docRef = doc(this.db, 'tasks', task.id);
+      const docRef = doc(this.db, 'tasks', id);
       await updateDoc(docRef, task);
       console.log('Atualizado com sucesso: ', docRef.id);
     } catch (e) {
