@@ -52,9 +52,13 @@ export class TarefasService {
     }
   }
 
-  async getAllResponsaveis() {
+  async getAllResponsaveis(userID: string) {
     try {
-      const q = query(collection(this.db, 'tasks'));
+      // const q = query(collection(this.db, 'tasks'));
+      const q = query(
+        collection(this.db, 'tasks'),
+        where('userID', '==', userID)
+      );
       const querySnapshot = await getDocs(q);
       const responsaveis: string[] = [];
       querySnapshot.forEach((doc) => {

@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   numeroTarefasEmAndamento = [];
   numeroTarefasAltaPrioridade = [];
 
-  arrayResponsaveis = ['Laura', 'João'];
+  arrayResponsaveis = [];
   public uid: string = '';
 
   // pegar tarefas do banco de dados
@@ -39,7 +39,9 @@ export class DashboardComponent implements OnInit {
     }
 
     this.tasks = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis();
+    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(
+      this.uid
+    );
 
     // pegar tarefas com prioridade alta
     this.tasksHighPriority = [];

@@ -26,7 +26,7 @@ export class TasksComponent implements OnInit {
   faEdit = faPen;
   faDelete = faTrash;
 
-  arrayResponsaveis = ['Laura', 'João'];
+  arrayResponsaveis = [];
 
   // criar tarefa
   description: string = '';
@@ -62,7 +62,9 @@ export class TasksComponent implements OnInit {
 
     this.tasks = tasksR;
     this.tasksFiltro = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis();
+    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(
+      this.uid
+    );
   }
 
   // criar tarefa
