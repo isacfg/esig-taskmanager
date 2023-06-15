@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { CreateModalComponent } from './components/create-modal/create-modal.component';
+import { KanbanComponent } from './kanban/kanban.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { CreateModalComponent } from './components/create-modal/create-modal.com
     TaskItemComponent,
     LoadingComponent,
     CreateModalComponent,
+    KanbanComponent,
   ],
   imports: [
     FormsModule,

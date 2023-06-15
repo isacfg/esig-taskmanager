@@ -1,0 +1,93 @@
+<div class="container mx-auto mt-2 " *ngIf="isLogged">
+  <!-- <p>dashboard works!</p> -->
+  <div class=" flex  w-full mx-auto px-8 py-4">
+    <h1 class="text-4xl text-new-black font-bold">Kanban</h1>
+  </div>
+
+  <!-- kanban boards container -->
+  <div class="flex flex-wrap px-8 gap-6">
+    <!-- nao iniciadas -->
+    <div class="w-1/4 px-2 py-2 screen80">
+      <div class="bg-white rounded-lg shadow-lg h-full">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">Não iniciadas</div>
+          <!-- cards -->
+          <div class="flex gap-y-4 flex-col ">
+            <div *ngFor="let task of tasksNaoIniciadas"
+              class="card w-11/12 bg-base-100 shadow-none border-2 border-slate-100">
+              <div class="card-body p-4">
+                <h2 class="card-title text-base">{{task.title}}</h2>
+
+                <!-- prioridade -->
+                <span class="badge text-white"
+                  [ngClass]="{'bg-red-500 text-white': task.prioridade === 'Alta', 'bg-yellow-500 text-white': task.prioridade === 'Média', 'bg-green-400 text-white': task.prioridade === 'Baixa' }">
+                  {{ task.prioridade }}
+                </span>
+                <div class="card-actions justify-start">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- em andamento -->
+    <div class="w-1/4 px-2 py-2 screen80 h-full">
+      <div class="bg-white rounded-lg shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">Em andamento</div>
+          <!-- cards -->
+          <div class="flex gap-y-4 flex-col ">
+            <div *ngFor="let task of tasksEmAndamento"
+              class="card w-11/12 bg-base-100 shadow-none border-2 border-slate-100">
+              <div class="card-body p-4">
+                <h2 class="card-title text-base">{{task.title}}</h2>
+
+                <!-- prioridade -->
+                <span class="badge text-white"
+                  [ngClass]="{'bg-red-500 text-white': task.prioridade === 'Alta', 'bg-yellow-500 text-white': task.prioridade === 'Média', 'bg-green-400 text-white': task.prioridade === 'Baixa' }">
+                  {{ task.prioridade }}
+                </span>
+                <div class="card-actions justify-start">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- concluida -->
+    <div class="w-1/4 px-2 py-2 screen80 h-full">
+      <div class="bg-white rounded-lg shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">Concluídas</div>
+          <!-- cards -->
+          <div class="flex gap-y-4 flex-col ">
+            <div *ngFor="let task of tasksConcluidas"
+              class="card w-11/12 bg-base-100 shadow-none border-2 border-slate-100">
+              <div class="card-body p-4">
+                <h2 class="card-title text-base">{{task.title}}</h2>
+
+                <!-- prioridade -->
+                <span class="badge text-white"
+                  [ngClass]="{'bg-red-500 text-white': task.prioridade === 'Alta', 'bg-yellow-500 text-white': task.prioridade === 'Média', 'bg-green-400 text-white': task.prioridade === 'Baixa' }">
+                  {{ task.prioridade }}
+                </span>
+                <div class="card-actions justify-start">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- se nao estiver logado -->
+  <div *ngIf="!isLogged" class="w-full h-screen container mx-auto flex justify-center items-center">
+    <app-loading></app-loading>
+  </div>

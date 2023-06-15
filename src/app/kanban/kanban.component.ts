@@ -5,23 +5,20 @@ import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: 'app-kanban',
+  templateUrl: './kanban.component.html',
+  styleUrls: ['./kanban.component.css'],
 })
-// Add any additional code here
-export class DashboardComponent implements OnInit {
+export class KanbanComponent implements OnInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
-  tasks = [];
-
-  tasksHighPriority = [];
-  numeroTarefasConcluidas = [];
-  numeroTarefasEmAndamento = [];
-  numeroTarefasAltaPrioridade = [];
-
-  arrayResponsaveis = ['Laura', 'João'];
+  isLogged: boolean = false;
   public uid: string = '';
+
+  tasks = [];
+  tasksNaoIniciadas = [];
+  tasksEmAndamento = [];
+  tasksConcluidas = [];
 
   // pegar tarefas do banco de dados
   async getTasks() {
@@ -39,34 +36,31 @@ export class DashboardComponent implements OnInit {
     }
 
     this.tasks = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis();
 
-    // pegar tarefas com prioridade alta
-    this.tasksHighPriority = [];
+    // pegar tarefas nao iniciadas
+    this.tasksNaoIniciadas = [];
     for (let i = 0; i < this.tasks.length; i++) {
-      if (this.tasks[i].prioridade == 'Alta') {
-        this.tasksHighPriority.push(this.tasks[i]);
+      if (this.tasks[i].status == 'Não iniciada') {
+        this.tasksNaoIniciadas.push(this.tasks[i]);
       }
     }
 
-    // pegar numero de concluidas
-    this.numeroTarefasConcluidas = [];
-    for (let i = 0; i < this.tasks.length; i++) {
-      if (this.tasks[i].status == 'Concluída') {
-        this.numeroTarefasConcluidas.push(this.tasks[i]);
-      }
-    }
-
-    // pegar numero de em andamento
-    this.numeroTarefasEmAndamento = [];
+    // pegar tarefas em andamento
+    this.tasksEmAndamento = [];
     for (let i = 0; i < this.tasks.length; i++) {
       if (this.tasks[i].status == 'Em andamento') {
-        this.numeroTarefasEmAndamento.push(this.tasks[i]);
+        this.tasksEmAndamento.push(this.tasks[i]);
+      }
+    }
+
+    // pegar tarefas concluidas
+    this.tasksConcluidas = [];
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].status == 'Concluída') {
+        this.tasksConcluidas.push(this.tasks[i]);
       }
     }
   }
-
-  isLogged: boolean = false;
 
   ngOnInit(): void {
     // checar se usuario esta logado
@@ -84,6 +78,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.getTasks();
+
     // if (this.tarefasService.fetched == false) {
     //   this.getTasks();
     //   this.tarefasService.fetched = true;

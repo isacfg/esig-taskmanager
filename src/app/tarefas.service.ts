@@ -20,6 +20,8 @@ export class TarefasService {
 
   constructor() {}
 
+  fetched = false;
+
   async getTasks() {
     try {
       const querySnapshot = await getDocs(collection(this.db, 'tasks'));

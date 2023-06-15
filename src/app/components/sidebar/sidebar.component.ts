@@ -9,6 +9,7 @@ import {
   faCircleUser,
   faChartLine,
 } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,6 +24,7 @@ export class SidebarComponent {
   faFolder = faFolder;
   faCircleUser = faCircleUser;
   faChartLine = faChartLine;
+  faKanban = faClipboard;
 
   logout() {
     const auth = getAuth();

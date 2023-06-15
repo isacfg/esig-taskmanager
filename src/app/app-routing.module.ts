@@ -5,6 +5,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { TeamComponent } from './team/team.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { LoginComponent } from './login/login.component';
+import { KanbanComponent } from './kanban/kanban.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsComponent },
   { path: 'team', component: TeamComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'kanban', component: KanbanComponent },
 ];
 
 @NgModule({
