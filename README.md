@@ -1,27 +1,42 @@
-# EsigTaskmanager
+# eTasks
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.5.
+Projeto para o processo seletivo da ESIG, design criado por mim usando o Figma. Deploy no vercel pois o Heroku estava pedindo cartão de crédito para fazer o deploy.
 
-## Development server
+## Links
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Figma](https://www.figma.com/file/YL678A05d6CZTO7KElvtTp/eTasks?type=design&node-id=0%3A1&t=IfVkS5SpeLoLQeUc-1)
+- [Live Demo](https://esig-taskmanager.vercel.app/)
 
-## Code scaffolding
+## Credenciais para login na Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Usuários diferentes possuem tarefas diferentes.
 
-## Build
+- Email:
+  - demoesig@gmail.com ou demoesig2@gmail.com
+- Senha:
+  - admin123
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Tecnologias usadas
 
-## Running unit tests
+- Figma
+- Angular 16
+- Firebase
+- TailwindCSS
+- DaisyUI (TailwindCSS)
+- Deploy com Vercel
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Funcionalidades implementadas
 
-## Running end-to-end tests
+a - SPA com Angular 16
+b - Backend com Firebase
+c - Autenticação com Firebase
+d - Telas adicionais, como dashboard, kanban e login
+f - Deploy com Vercel
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Outras funcionalidades implementadas:
+Criar tarefa, atualizar tarefa, remover tarefa, listar tarefas, filtrar tarefas, estatísticas
 
-## Further help
+## Como rodar o projeto
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Instalar as dependencias com `npm install`.
+Rodar o projeto com `ng serve`.
