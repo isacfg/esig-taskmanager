@@ -26,6 +26,8 @@ export class TasksComponent implements OnInit {
   faEdit = faPen;
   faDelete = faTrash;
 
+  arrayResponsaveis = ['Laura', 'João'];
+
   // criar tarefa
   description: string = '';
   prazo;
@@ -38,6 +40,7 @@ export class TasksComponent implements OnInit {
   // selecionar tarefa
   selectedID: string = '';
 
+  tasksFiltro = [];
   tasks = [
     {
       id: 1,
@@ -89,6 +92,8 @@ export class TasksComponent implements OnInit {
     }
 
     this.tasks = tasksR;
+    this.tasksFiltro = tasksR;
+    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis();
   }
 
   // criar tarefa
@@ -184,6 +189,17 @@ export class TasksComponent implements OnInit {
     closeBtn?.click();
   }
 
+  clearInputs() {
+    this.title = '';
+    this.description = '';
+    this.prioridade = '';
+    this.status = '';
+    this.prazo = '';
+    this.responsavel = '';
+    this.projeto = '';
+    this.selectedID = '';
+  }
+
   // deletar tarefa
   async deleteTarefa() {
     let id = this.selectedID;
@@ -192,6 +208,106 @@ export class TasksComponent implements OnInit {
     let closeBtn = document.getElementById('deleteModalBtn');
     closeBtn?.click();
     this.selectedID = '';
+  }
+
+  // gerenciador de busca
+  searchInput: string = '';
+  responsavelSearch: string = 'default';
+  statusSearch: string = 'default';
+  prioridadeSearch: string = 'default';
+
+  search() {
+    // se nada for selecionado, retorna todas as tarefas
+    if (
+      this.searchInput == '' &&
+      (this.responsavelSearch == 'default' ||
+        this.responsavelSearch == 'all') &&
+      (this.statusSearch == 'default' || this.statusSearch == 'all') &&
+      (this.prioridadeSearch == 'default' || this.prioridadeSearch == 'all')
+    ) {
+      // this.getTasks();
+      console.log('busca vazia');
+    } else {
+      // this.tasks = this.tasksFiltro.filter((task) =>
+
+      // busca por titulo
+      if (this.searchInput != '') {
+        this.tasks = this.tasksFiltro.filter((task) =>
+          task.title.toLowerCase().includes(this.searchInput.toLowerCase())
+        );
+      }
+
+      // busca por responsavel
+      if (this.responsavelSearch != 'default') {
+        this.tasks = this.tasksFiltro.filter(
+          (task) => task.responsavel == this.responsavelSearch
+        );
+      }
+
+      // busca por responsavel e status
+      if (
+        this.responsavelSearch != 'default' &&
+        this.statusSearch != 'default'
+      ) {
+        this.tasks = this.tasksFiltro.filter(
+          (task) =>
+            task.responsavel == this.responsavelSearch &&
+            task.status == this.statusSearch
+        );
+      }
+
+      // busca por responsavel e prioridade
+      if (
+        this.responsavelSearch != 'default' &&
+        this.prioridadeSearch != 'default'
+      ) {
+        this.tasks = this.tasksFiltro.filter(
+          (task) =>
+            task.responsavel == this.responsavelSearch &&
+            task.prioridade == this.prioridadeSearch
+        );
+      }
+
+      // busca por status
+      if (this.statusSearch != 'default') {
+        this.tasks = this.tasksFiltro.filter(
+          (task) => task.status == this.statusSearch
+        );
+      }
+
+      // busca por status e prioridade
+      if (
+        this.statusSearch != 'default' &&
+        this.prioridadeSearch != 'default'
+      ) {
+        this.tasks = this.tasksFiltro.filter(
+          (task) =>
+            task.status == this.statusSearch &&
+            task.prioridade == this.prioridadeSearch
+        );
+      }
+
+      // busca por prioridade
+      if (this.prioridadeSearch != 'default') {
+        this.tasks = this.tasksFiltro.filter(
+          (task) => task.prioridade == this.prioridadeSearch
+        );
+      }
+
+      // busca por responsavel, status e prioridade
+      if (
+        this.responsavelSearch != 'default' &&
+        this.statusSearch != 'default' &&
+        this.prioridadeSearch != 'default'
+      ) {
+        this.tasks = this.tasksFiltro.filter(
+          (task) =>
+            task.responsavel == this.responsavelSearch &&
+            task.status == this.statusSearch &&
+            task.prioridade == this.prioridadeSearch
+        );
+      }
+    }
   }
 
   isLogged: boolean = false;

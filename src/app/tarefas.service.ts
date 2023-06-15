@@ -52,6 +52,24 @@ export class TarefasService {
     }
   }
 
+  async getAllResponsaveis() {
+    try {
+      const q = query(collection(this.db, 'tasks'));
+      const querySnapshot = await getDocs(q);
+      const responsaveis: string[] = [];
+      querySnapshot.forEach((doc) => {
+        const responsavel = doc.data()['responsavel'];
+        if (responsavel && !responsaveis.includes(responsavel)) {
+          responsaveis.push(responsavel);
+        }
+      });
+      return responsaveis;
+    } catch (e) {
+      console.error('Erro: ', e);
+      return [];
+    }
+  }
+
   async getTasksByProjetoUserID(projeto: string, userID: string) {
     try {
       const q = query(

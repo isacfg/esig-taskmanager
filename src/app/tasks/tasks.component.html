@@ -15,22 +15,36 @@
   <!-- search -->
   <div class="flex w-full mx-auto px-8 mt-2 gap-x-2 justify-between">
     <div class="flex   gap-x-2">
-      <input type="text" placeholder="Buscar por título, descrição ou id" class="input input-bordered w-1/2" />
+      <input [(ngModel)]="searchInput" name="searchInput" type="text" placeholder="Buscar por título"
+        class="input input-bordered w-1/2" />
 
       <!-- responsavel -->
-      <select class="select select-bordered  max-w-xs">
-        <option disabled selected>Responsável: </option>
-        <option>Han Solo</option>
-        <option>Greedo</option>
+      <select [(ngModel)]="responsavelSearch" name="responsavelSearch" id="responsaveis"
+        class="select select-bordered  max-w-xs">
+        <option value="default" disabled selected>Responsável: </option>
+        <option value="all">Todos</option>
+        <ng-container *ngFor="let res of arrayResponsaveis">
+          <option>{{res}}</option>
+        </ng-container>
       </select>
       <!-- status -->
-      <select class="select select-bordered max-w-xs">
-        <option disabled selected>Status: </option>
-        <option>Han Solo</option>
-        <option>Greedo</option>
+      <select [(ngModel)]="statusSearch" name="statusSearch" class="select select-bordered max-w-xs">
+        <option value="default" disabled selected>Status: </option>
+        <option value="all">Todos</option>
+        <option>Não iniciada</option>
+        <option>Em andamento</option>
+        <option>Concluída</option>
+      </select>
+      <!-- prioridade -->
+      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select select-bordered max-w-xs">
+        <option value="default" disabled selected>Prioridade: </option>
+        <option value="all">Todos</option>
+        <option>Alta</option>
+        <option>Média</option>
+        <option>Baixa</option>
       </select>
 
-      <button class="btn btn-secondary">
+      <button (click)="search()" class="btn btn-secondary">
         <fa-icon class="text-white text-xl" [icon]="faSearch"></fa-icon>
       </button>
     </div>
@@ -85,7 +99,9 @@
           </td>
           <td>{{task.prazo}}</td>
           <th>
-            <button class="btn btn-ghost btn-xs"><fa-icon [icon]="faInfo"></fa-icon></button>
+            <button
+              (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+              onclick="viewModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon [icon]="faInfo"></fa-icon></button>
             <button
               (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
               onclick="editModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon [icon]="faEdit"></fa-icon></button>
@@ -221,6 +237,38 @@
 
         <button id="closeBtnEdit" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
         <a class="btn bg-green-500 hover:bg-green-800 hover:text-white text-white" (click)="updateTarefa()">Editar</a>
+      </div>
+    </form>
+  </dialog>
+
+
+  <!-- modal de informações -->
+  <!-- modal de editar -->
+  <dialog id="viewModal" class="modal">
+    <form method="dialog" class="modal-box  w-3/4 max-w-4xl">
+      <h3 class="font-bold text-lg">Informações da tarefa</h3>
+      <div class="w-full  flex flex-row ">
+        <div class="flex w-1/2 flex-col">
+          <p class="py-2"><span class="font-semibold">Titulo:</span> {{this.title}}</p>
+          <p class="py-2"><span class="font-semibold">ID:</span> {{this.selectedID}}</p>
+          <p class="py-2"><span class="font-semibold">Descrição:</span> {{this.description}}</p>
+        </div>
+        <div class="flex flex-col">
+          <p class="py-2"><span class="font-semibold">Responsável:</span> {{this.responsavel}}</p>
+          <p class="py-2"><span class="font-semibold">Projeto:</span> {{this.projeto}}</p>
+          <p class="py-2"><span class="font-semibold">Prioridade:</span> {{this.prioridade}}</p>
+
+          <p class="py-2"><span class="font-semibold">Status:</span> {{this.status}}</p>
+          <p class="py-2"><span class="font-semibold">Prazo:</span> {{this.prazo}}</p>
+        </div>
+
+
+
+      </div>
+      <div class="modal-action">
+
+        <button (click)="clearInputs()" id="closeBtnEdit" class="btn ">Fechar</button>
+
       </div>
     </form>
   </dialog>
