@@ -64,28 +64,20 @@ export class KanbanComponent implements OnInit {
 
   ngOnInit(): void {
     // checar se usuario esta logado
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.uid = user.uid;
-        this.isLogged = true;
-        console.log('Usuario logado', this.uid);
-      } else {
-        console.log('Usuario não logado');
-        this.isLogged = false;
-
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 500);
-      }
-    });
-
-    this.getTasks();
-
-    // if (this.tarefasService.fetched == false) {
-    //   this.getTasks();
-    //   this.tarefasService.fetched = true;
-    // }
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.uid = user.uid;
+    //     this.isLogged = true;
+    //     console.log('Usuario logado', this.uid);
+    //   } else {
+    //     console.log('Usuario não logado');
+    //     this.isLogged = false;
+    //     setTimeout(() => {
+    //       this.router.navigate(['/login']);
+    //     }, 500);
+    //   }
+    // });
+    // this.getTasks();
   }
 }

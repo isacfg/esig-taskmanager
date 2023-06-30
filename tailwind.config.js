@@ -14,6 +14,8 @@ module.exports = {
 
         "eGrey": "#B5B5D7",
 
+        "eLightGrey": "#f5f5f5",
+
 
       },
     },

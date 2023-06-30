@@ -87,9 +87,5 @@ export class DashboardComponent implements OnInit {
     //   }
     // });
     // this.getTasks();
-    // if (this.tarefasService.fetched == false) {
-    //   this.getTasks();
-    //   this.tarefasService.fetched = true;
-    // }
   }
 }

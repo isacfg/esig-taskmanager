@@ -17,6 +17,18 @@
   filter: brightness(1.00);
 }
 
+#sidebarItem:active .dashboard-img {
+  filter: brightness(1.00);
+}
+
+#sidebarItem:focus .dashboard-img {
+  filter: brightness(1.00);
+}
+
+.dashboard-img-active .dashboard-img {
+  filter: brightness(1.00);
+}
+
 #sidebarItem {
   color: #F5F5F5;
   /* leading-trim: both; */
@@ -27,6 +39,18 @@
 }
 
 #sidebarItem:hover {
+  color: white !important;
+  font-weight: 800;
+  background: #6f6eba;
+}
+
+#sidebarItem:active {
+  color: white !important;
+  font-weight: 800;
+  background: #6f6eba;
+}
+
+#sidebarItem:focus {
   color: white !important;
   font-weight: 800;
   background: #6f6eba;

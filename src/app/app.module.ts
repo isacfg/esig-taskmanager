@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { KanbanComponent } from './kanban/kanban.component';
+import { TopNavComponent } from './components/top-nav/top-nav.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { KanbanComponent } from './kanban/kanban.component';
     LoginComponent,
     LoadingComponent,
     KanbanComponent,
+    TopNavComponent,
   ],
   imports: [
     FormsModule,

@@ -309,23 +309,20 @@ export class TasksComponent implements OnInit {
   isLogged: boolean = false;
 
   ngOnInit(): void {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.uid = user.uid;
-        this.isLogged = true;
-        console.log('Usuario logado', this.uid);
-      } else {
-        console.log('Usuario não logado');
-        this.isLogged = false;
-
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 500);
-      }
-    });
-
-    this.getTasks();
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.uid = user.uid;
+    //     this.isLogged = true;
+    //     console.log('Usuario logado', this.uid);
+    //   } else {
+    //     console.log('Usuario não logado');
+    //     this.isLogged = false;
+    //     setTimeout(() => {
+    //       this.router.navigate(['/login']);
+    //     }, 500);
+    //   }
+    // });
+    // this.getTasks();
   }
 }
