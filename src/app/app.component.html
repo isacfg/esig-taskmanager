@@ -1,6 +1,8 @@
 <div class="flex w-screen h-screen max-md:flex-col">
-  <app-sidebar class="max-md:absolute max-md:z-30"></app-sidebar>
-  <div class="main-panel w-full h-screen">
-    <router-outlet></router-outlet>
-  </div>
+  <app-sidebar class="w-screen h-screen">
+    <div class="main-panel w-full h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </app-sidebar>
+
 </div>

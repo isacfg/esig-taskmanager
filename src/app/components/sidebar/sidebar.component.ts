@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { faClipboard } from '@fortawesome/free-regular-svg-icons';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   constructor(private router: Router) {}
 
   faPlus = faPlus;
@@ -26,9 +26,17 @@ export class SidebarComponent {
   faChartLine = faChartLine;
   faKanban = faClipboard;
 
+  toggleSidebar() {
+    // id="abrir-gaveta"
+    const sidebar = document.getElementById('abrir-gaveta');
+    sidebar.click();
+  }
+
   logout() {
     const auth = getAuth();
     auth.signOut();
     this.router.navigate(['/login']);
   }
+
+  ngOnInit(): void {}
 }

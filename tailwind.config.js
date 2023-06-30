@@ -7,6 +7,14 @@ module.exports = {
     extend: {
       colors: {
         'new-black': '#262B32',
+
+        "eDarkBlue": "#5554AA",
+
+        "eBlue": "#6261B4",
+
+        "eGrey": "#B5B5D7",
+
+
       },
     },
   },
@@ -33,6 +41,8 @@ module.exports = {
           "warning": "#facc15",
 
           "error": "#dc2626",
+
+
         },
       },
     ],

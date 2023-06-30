@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { ProjectsComponent } from './projects/projects.component';
-import { TeamComponent } from './team/team.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TasksComponent } from './tasks/tasks.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -22,12 +20,8 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { providePerformance, getPerformance } from '@angular/fire/performance';
 import { FormsModule } from '@angular/forms';
-// import { AngularFireModule } from '@angular/fire/compat';
-// import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginComponent } from './login/login.component';
-import { TaskItemComponent } from './task-item/task-item.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { CreateModalComponent } from './components/create-modal/create-modal.component';
 import { KanbanComponent } from './kanban/kanban.component';
 
 @NgModule({
@@ -35,13 +29,9 @@ import { KanbanComponent } from './kanban/kanban.component';
     AppComponent,
     DashboardComponent,
     SidebarComponent,
-    ProjectsComponent,
-    TeamComponent,
     TasksComponent,
     LoginComponent,
-    TaskItemComponent,
     LoadingComponent,
-    CreateModalComponent,
     KanbanComponent,
   ],
   imports: [
