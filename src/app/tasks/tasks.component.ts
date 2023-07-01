@@ -46,25 +46,20 @@ export class TasksComponent implements OnInit {
     } // espera o uid ser preenchido
 
     // pega as tarefas do banco de dados por usuario
-    let tasksR = await this.tarefasService.getTasksByUserID(this.uid);
-
-    // converter prazo para devolver pro input
-    for (let i = 0; i < tasksR.length; i++) {
-      let s = tasksR[i].prazo.toDate();
-      tasksR[i].prazo = s.toISOString().substring(0, 10);
-    }
+    let tasksR = await this.tarefasService.injectTasks(this.uid);
 
     this.tasks = tasksR;
     this.tasksFiltro = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(this.uid);
-    this.arrayProjetos = await this.tarefasService.getAllProjetos(this.uid);
+    this.arrayResponsaveis = await this.tarefasService.injectTasks(this.uid, true, false);
+    this.arrayProjetos = await this.tarefasService.injectTasks(this.uid, false, true);
   }
 
   // criar tarefa
   async createTask() {
-    // cria a tarefa no banco de dados
-    let s = new Date(this.prazo);
+    // create task in the database
+    const s = new Date(this.prazo);
     this.prazo = Timestamp.fromDate(s);
+    const createdAt = new Date();
 
     await this.tarefasService.createTask({
       title: this.title,
@@ -75,12 +70,25 @@ export class TasksComponent implements OnInit {
       responsavel: this.responsavel,
       projeto: this.projeto,
       userID: this.uid,
+      createdAt: createdAt.toISOString(),
     });
 
-    // atualiza a lista de tarefas
+    this.tarefasService.pushTask(
+      this.title,
+      this.description,
+      this.prioridade,
+      this.status,
+      this.prazo,
+      this.responsavel,
+      this.projeto,
+      this.uid,
+      createdAt.toISOString()
+    );
+
+    // update task list
     this.getTasks();
 
-    // limpa os campos
+    // clear fields
     this.title = '';
     this.description = '';
     this.prioridade = '';
@@ -89,8 +97,8 @@ export class TasksComponent implements OnInit {
     this.responsavel = '';
     this.projeto = '';
 
-    // fecha o modal
-    let closeBtn = document.getElementById('closeBtn');
+    // close modal
+    const closeBtn = document.getElementById('closeBtn');
     closeBtn?.click();
   }
 
@@ -312,42 +320,6 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
     if (this.production == false) {
       this.isLogged = true;
-
-      this.tasks = [
-        {
-          id: '1',
-          title: 'Tarefa 1',
-          description: 'descrição',
-          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
-          prioridade: 'Média',
-          projeto: 'Projeto Amendis',
-          responsavel: 'Pedro',
-          status: 'Concluída',
-          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
-        },
-        {
-          id: '2',
-          title: 'Tarefa 2',
-          description: 'descrição',
-          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
-          prioridade: 'Alta',
-          projeto: 'Projeto Amendis',
-          responsavel: 'Pedro',
-          status: 'Concluída',
-          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
-        },
-        {
-          id: '2',
-          title: 'Tarefa 2',
-          description: 'descrição',
-          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
-          prioridade: 'Baixa',
-          projeto: 'Projeto Amendis',
-          responsavel: 'Pedro',
-          status: 'Concluída',
-          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
-        },
-      ];
     } else {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {

@@ -18,8 +18,10 @@
 
   <!-- display tasks container -->
   <div class="tasks-container mx-auto mt-4 rounded-lg bg-white">
+
     <!-- filters -->
     <div class="flex flex-row justify-end gap-x-4 p-4 flex-wrap max-md:justify-start max-md:gap-2">
+
       <!-- projetos -->
       <select [(ngModel)]="projetoSearch" name="projetoSearch" id="projetos"
         class="select-bordered select max-w-xs mob-width-100cent">
@@ -28,6 +30,7 @@
           <option>{{ proj }}</option>
         </ng-container>
       </select>
+
       <!-- status -->
       <select [(ngModel)]="statusSearch" name="statusSearch" class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Status</option>
@@ -35,6 +38,7 @@
         <option>Em andamento</option>
         <option>Concluída</option>
       </select>
+
       <!-- prioridade -->
       <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch"
         class="select-bordered select max-w-xs mob-width-100cent">
@@ -43,13 +47,14 @@
         <option>Média</option>
         <option>Baixa</option>
       </select>
-      <!-- prioridade -->
+
+      <!-- lastNDays -->
       <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch"
         class="select-bordered select max-w-xs mob-width-100cent">
-        <option value="default" disabled selected>Prioridade:</option>
-        <option>Alta</option>
-        <option>Média</option>
-        <option>Baixa</option>
+        <option value="default" disabled selected>Data:</option>
+        <option>Últimos 90 dias</option>
+        <option>Últimos 30 dias</option>
+        <option>Últimos 7 dias</option>
       </select>
 
       <button (click)="search()"
