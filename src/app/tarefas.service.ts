@@ -20,8 +20,8 @@ export class TarefasService {
 
   constructor() {}
 
+  private production = false;
   public globalTasks: any[] = [];
-  private production = true;
   public mockTasks: any[] = [
     {
       id: '1',
@@ -94,12 +94,6 @@ export class TarefasService {
       userID,
       createdAt,
     };
-
-// converter prazo para devolver pro input
-      // for (let i = 0; i < this.globalTasks.length; i++) {
-      //   let s = new Date(this.globalTasks[i].prazo.toDate().getTime());
-      //   this.globalTasks[i].prazo = s.toISOString().substring(0, 10);
-      // }
 
     this.globalTasks.push(task);
   }

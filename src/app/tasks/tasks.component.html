@@ -49,12 +49,11 @@
       </select>
 
       <!-- lastNDays -->
-      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch"
-        class="select-bordered select max-w-xs mob-width-100cent">
+      <select [(ngModel)]="lastNDays" name="prioridadeSearch" class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Data:</option>
-        <option>Últimos 90 dias</option>
-        <option>Últimos 30 dias</option>
-        <option>Últimos 7 dias</option>
+        <option value="90">Últimos 90 dias</option>
+        <option value="30">Últimos 30 dias</option>
+        <option value="70">Últimos 7 dias</option>
       </select>
 
       <button (click)="search()"

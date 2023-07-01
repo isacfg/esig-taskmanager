@@ -179,140 +179,160 @@ export class TasksComponent implements OnInit {
   statusSearch: string = 'default';
   prioridadeSearch: string = 'default';
   projetoSearch: string = 'default';
+  lastNDays: string = 'default';
 
-  async search() {
-    // if nothing is selected, return all tasks
+async search() {
+  // if nothing is selected, return all tasks
+  if (
+    this.responsavelSearch == 'default' &&
+    this.statusSearch == 'default' &&
+    this.prioridadeSearch == 'default' &&
+    this.projetoSearch == 'default' &&
+    this.searchInput == '' &&
+    this.lastNDays == 'default'
+  ) {
+    this.tasks = this.tasksFiltro;
+  } else {
+    // search by title
+    if (this.searchInput != '') {
+      this.tasks = this.tasksFiltro.filter((task) =>
+        task.title.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+    }
+
+    // search by responsavel
     if (
-      this.responsavelSearch == 'default' &&
+      this.responsavelSearch != 'default' &&
       this.statusSearch == 'default' &&
       this.prioridadeSearch == 'default' &&
       this.projetoSearch == 'default' &&
-      this.searchInput == ''
+      this.lastNDays == 'default'
     ) {
-      this.tasks = this.tasksFiltro;
-    } else {
-      // search by title
-      if (this.searchInput != '') {
-        this.tasks = this.tasksFiltro.filter((task) =>
-          task.title.toLowerCase().includes(this.searchInput.toLowerCase())
-        );
-      }
-
-      // search by responsavel
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter((task) => task.responsavel == this.responsavelSearch);
-      }
-
-      // search by responsavel and status
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.responsavel == this.responsavelSearch && task.status == this.statusSearch
-        );
-      }
-
-      // search by responsavel and prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.responsavel == this.responsavelSearch && task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // search by status
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.responsavelSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter((task) => task.status == this.statusSearch);
-      }
-
-      // search by status and prioridade
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.responsavelSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.status == this.statusSearch && task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // search by prioridade
-      if (
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.responsavelSearch == 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter((task) => task.prioridade == this.prioridadeSearch);
-      }
-
-      // search by projeto
-      if (
-        this.projetoSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter((task) => task.projeto == this.projetoSearch);
-      }
-
-      // search by responsavel, status and prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.projetoSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.status == this.statusSearch &&
-            task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // search by responsavel, status, prioridade and projeto
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.projetoSearch != 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.status == this.statusSearch &&
-            task.prioridade == this.prioridadeSearch &&
-            task.projeto == this.projetoSearch
-        );
-      }
+      this.tasks = this.tasksFiltro.filter((task) => task.responsavel == this.responsavelSearch);
     }
 
-    // reset search inputs
-    this.searchInput = '';
-    this.responsavelSearch = 'default';
-    this.statusSearch = 'default';
-    this.prioridadeSearch = 'default';
-    this.projetoSearch = 'default';
+    // search by responsavel and status
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.responsavel == this.responsavelSearch && task.status == this.statusSearch
+      );
+    }
+
+    // search by responsavel and prioridade
+    if (
+      this.responsavelSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.responsavel == this.responsavelSearch && task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by status
+    if (
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.status == this.statusSearch);
+    }
+
+    // search by status and prioridade
+    if (
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.status == this.statusSearch && task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by prioridade
+    if (
+      this.prioridadeSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.prioridade == this.prioridadeSearch);
+    }
+
+    // search by projeto
+    if (
+      this.projetoSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.projeto == this.projetoSearch);
+    }
+
+    // search by responsavel, status and prioridade
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) =>
+          task.responsavel == this.responsavelSearch &&
+          task.status == this.statusSearch &&
+          task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by responsavel, status, prioridade and projeto
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.projetoSearch != 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) =>
+          task.responsavel == this.responsavelSearch &&
+          task.status == this.statusSearch &&
+          task.prioridade == this.prioridadeSearch &&
+          task.projeto == this.projetoSearch
+      );
+    }
+
+    // search by createdAt
+    if (this.lastNDays != 'default') {
+      const today = new Date();
+      const daysAgo = new Date(today.getTime() - parseInt(this.lastNDays) * 24 * 60 * 60 * 1000);
+      const createdAtLimit = daysAgo.toISOString();
+      this.tasks = this.tasksFiltro.filter((task) => task.createdAt >= createdAtLimit);
+    }
   }
+
+  // reset search inputs
+  this.searchInput = '';
+  this.responsavelSearch = 'default';
+  this.statusSearch = 'default';
+  this.prioridadeSearch = 'default';
+  this.projetoSearch = 'default';
+  this.lastNDays = 'default';
+}
 
   private production: boolean = true;
   isLogged: boolean = false;
