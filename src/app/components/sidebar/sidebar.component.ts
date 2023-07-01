@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { getAuth } from 'firebase/auth';
 import { Router, NavigationEnd } from '@angular/router';
 
-import {
-  faPlus,
-  faListCheck,
-  faFolder,
-  faCircleUser,
-  faChartLine,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -20,10 +13,6 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router) {}
 
   faPlus = faPlus;
-  faListCheck = faListCheck;
-  faFolder = faFolder;
-  faCircleUser = faCircleUser;
-  faChartLine = faChartLine;
   faKanban = faClipboard;
 
   toggleSidebar() {
@@ -32,12 +21,7 @@ export class SidebarComponent implements OnInit {
     sidebar.click();
   }
 
-  logout() {
-    const auth = getAuth();
-    auth.signOut();
-    this.router.navigate(['/login']);
-  }
-
+  // gambiarra temporaria para deixar o icone do dashboard ativo
   getUrl() {
     // console.log(this.router.url);
     const dashboard = document.querySelector('.dashboard');
@@ -65,5 +49,6 @@ export class SidebarComponent implements OnInit {
         this.getUrl();
       }
     });
+    // subscribe faz com que o evento seja disparado toda vez que a rota muda e NavigationEnd é o evento que é disparado quando a rota muda
   }
 }

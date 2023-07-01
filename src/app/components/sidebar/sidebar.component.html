@@ -5,7 +5,7 @@
 
 
     <!-- mobile nav -->
-    <div class="w-full bg-eDarkBlue flex items-center p-8  lg:hidden">
+    <div class="w-full bg-eDarkBlue flex items-center p-8  lg:hidden max-md:px-4">
 
       <label id="abrir-gaveta" for="my-drawer-2" class="drawer-button">
         <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer">
@@ -28,7 +28,7 @@
     <label for="my-drawer-2" class="drawer-overlay"></label>
 
     <div class="bg-eDarkBlue p-4 w-60 flex items-center ">
-      <label (click)="toggleSidebar" for="my-drawer-2" class="">
+      <label (click)="toggleSidebar" for="my-drawer-2" class="cursor-pointer">
         <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer">
       </label>
       <img src="../../../assets/logo-esig.svg" alt="Logo eTasks" class="logo-esig ml-8" srcset="">
@@ -61,7 +61,7 @@
 
       </div>
 
-      <button type="button" class="btn self-start btn-outline btn-error btn-sm mt-20" (click)="logout()">Sair</button>
+      <!-- <button type="button" class="btn self-start btn-outline btn-error btn-sm mt-20" (click)="logout()">Sair</button> -->
 
     </ul>
 

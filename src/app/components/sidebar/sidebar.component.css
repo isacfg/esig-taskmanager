@@ -40,26 +40,26 @@
 
 #sidebarItem:hover {
   color: white !important;
-  font-weight: 800;
+  font-weight: 700;
   background: #6f6eba;
 }
 
 #sidebarItem:active {
   color: white !important;
-  font-weight: 800;
+  font-weight: 700;
   background: #6f6eba;
 }
 
 #sidebarItem:focus {
   color: white !important;
-  font-weight: 800;
+  font-weight: 700;
   background: #6f6eba;
 }
 
 .dashboard-img-active {
   filter: brightness(1.00);
   color: white !important;
-  font-weight: 800;
+  font-weight: 700;
   background: #6f6eba;
 }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
@@ -306,7 +305,7 @@ export class TasksComponent implements OnInit {
     this.prioridadeSearch = 'default';
   }
 
-  isLogged: boolean = false;
+  isLogged: boolean = true; // trocar pra false in production
 
   ngOnInit(): void {
     // const auth = getAuth();
