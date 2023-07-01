@@ -14,8 +14,6 @@ import { faMagnifyingGlass, faCircleInfo, faPen, faTrash } from '@fortawesome/fr
 export class TasksComponent implements OnInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
-  private production: boolean = true;
-
   faSearch = faMagnifyingGlass;
   faInfo = faCircleInfo;
   faEdit = faPen;
@@ -308,7 +306,8 @@ export class TasksComponent implements OnInit {
     this.projetoSearch = 'default';
   }
 
-  isLogged: boolean = false; // trocar pra false in production
+  private production: boolean = true;
+  isLogged: boolean = false;
 
   ngOnInit(): void {
     if (this.production == false) {

@@ -76,17 +76,22 @@
 
         <tbody>
           <tr *ngFor="let task of tasks">
-            <td class="w-28cent task cursor-pointer truncate underline">{{task.title}}</td>
+            <td class="w-28cent task cursor-pointer truncate underline"
+              (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+              onclick="viewModal.showModal()">{{task.title}}</td>
 
             <td class="w-8cent">
               <p class="rounded-lg  py-1 text-center text-white" [ngClass]="{
-                'bg-eRed': task.prioridade == 'Baixa',
+                'bg-eGreen': task.prioridade == 'Baixa',
                 'bg-yellow-500': task.prioridade == 'Média',
-                'bg-eGreen': task.prioridade == 'Alta'
+                'bg-eRed': task.prioridade == 'Alta'
               }">{{task.prioridade}}</p>
             </td>
 
-            <td class="w-12cent task cursor-pointer truncate underline">{{task.projeto}}</td>
+            <td
+              (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+              onclick="viewModal.showModal()" class="w-12cent task cursor-pointer truncate underline">{{task.projeto}}
+            </td>
 
             <td class="w-8cent">
               <p class="rounded-lg px-1 truncate bg-eGreen py-1 text-center text-white max-w-60px " [ngClass]="{
