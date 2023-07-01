@@ -18,6 +18,9 @@ module.exports = {
 
         "eBlack": "#263238",
 
+        "eRed": "#ff1414",
+
+        "eGreen": "#4ad894",
 
       },
     },

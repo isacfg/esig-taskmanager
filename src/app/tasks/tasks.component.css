@@ -1,0 +1,37 @@
+.w-8cent {
+  width: 8%;
+}
+
+.w-12cent {
+  width: 12%;
+}
+
+.w-28cent {
+  width: 28%;
+}
+
+.thead-labels {
+  color: #797B7C;
+  leading-trim: both;
+  text-edge: cap;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.task {
+  color: #263238;
+  overflow: hidden;
+  leading-trim: both;
+  text-edge: cap;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.tasks-container {
+  min-height: 70vh
+}

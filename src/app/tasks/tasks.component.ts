@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
 import {
-  faPlus,
   faMagnifyingGlass,
   faCircleInfo,
   faPen,
@@ -19,7 +19,8 @@ import {
 export class TasksComponent implements OnInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
-  faPlus = faPlus;
+  private production: boolean = false;
+
   faSearch = faMagnifyingGlass;
   faInfo = faCircleInfo;
   faEdit = faPen;
@@ -305,23 +306,70 @@ export class TasksComponent implements OnInit {
     this.prioridadeSearch = 'default';
   }
 
-  isLogged: boolean = true; // trocar pra false in production
+  isLogged: boolean = false; // trocar pra false in production
 
   ngOnInit(): void {
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     this.uid = user.uid;
-    //     this.isLogged = true;
-    //     console.log('Usuario logado', this.uid);
-    //   } else {
-    //     console.log('Usuario não logado');
-    //     this.isLogged = false;
-    //     setTimeout(() => {
-    //       this.router.navigate(['/login']);
-    //     }, 500);
-    //   }
-    // });
-    // this.getTasks();
+    if (this.production == false) {
+      this.isLogged = true;
+
+      // description
+      // "descrição"
+      // prazo
+      // June 28, 2023 at 9:00:00 PM UTC-3
+      // (timestamp)
+      // prioridade
+      // "Média"
+      // projeto
+      // "Projeto Amendis"
+      // responsavel
+      // "Pedro"
+      // status
+      // "Concluída"
+      // title
+      // "Terefa criada editada 2"
+      // userID
+      // "vDJ1fa0ztXYlXyfmKFpHkHHfnPu1"
+
+      this.tasks = [
+        {
+          id: '1',
+          title: 'Tarefa 1',
+          description: 'descrição',
+          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
+          prioridade: 'Média',
+          projeto: 'Projeto Amendis',
+          responsavel: 'Pedro',
+          status: 'Concluída',
+          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+        },
+        {
+          id: '2',
+          title: 'Tarefa 2',
+          description: 'descrição',
+          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
+          prioridade: 'Média',
+          projeto: 'Projeto Amendis',
+          responsavel: 'Pedro',
+          status: 'Concluída',
+          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+        },
+      ];
+    } else {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.uid = user.uid;
+          this.isLogged = true;
+          console.log('Usuario logado', this.uid);
+        } else {
+          console.log('Usuario não logado');
+          this.isLogged = false;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 500);
+        }
+      });
+      this.getTasks();
+    }
   }
 }
