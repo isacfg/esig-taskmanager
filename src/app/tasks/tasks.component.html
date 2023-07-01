@@ -21,11 +21,11 @@
     <!-- filters -->
     <div class="flex flex-row justify-end gap-x-4 p-4 flex-wrap max-md:justify-start max-md:gap-2">
       <!-- projetos -->
-      <select [(ngModel)]="responsavelSearch" name="responsavelSearch" id="responsaveis"
+      <select [(ngModel)]="projetoSearch" name="projetoSearch" id="projetos"
         class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Projetos</option>
-        <ng-container *ngFor="let res of arrayResponsaveis">
-          <option>{{ res }}</option>
+        <ng-container *ngFor="let proj of arrayProjetos">
+          <option>{{ proj }}</option>
         </ng-container>
       </select>
       <!-- status -->
@@ -51,6 +51,11 @@
         <option>Média</option>
         <option>Baixa</option>
       </select>
+
+      <button (click)="search()"
+        class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue">
+        Aplicar filtros
+      </button>
     </div>
 
     <!-- tarefas -->
@@ -100,8 +105,8 @@
             <td class="w-12cent">
               <div class="flex flex-row gap-x-2">
                 <!-- delete -->
-                <img onclick="deleteModal.showModal()" class="w-5 cursor-pointer" src="../../../assets/trash.svg" alt=""
-                  srcset="" />
+                <img (click)="selectTarefa(task.id)" onclick="deleteModal.showModal()" class="w-5 cursor-pointer"
+                  src="../../../assets/trash.svg" alt="" srcset="" />
 
                 <!-- view -->
                 <img
@@ -112,8 +117,8 @@
                 <!-- edit -->
                 <img
                   (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
-                  onclick="editModal.showModal()" onclick="editModal.showModal()" class="w-5 cursor-pointer"
-                  src="../../../assets/blog-pencil.svg" alt="" srcset="" />
+                  onclick="editModal.showModal()" class="w-5 cursor-pointer" src="../../../assets/blog-pencil.svg"
+                  alt="" srcset="" />
               </div>
             </td>
           </tr>
@@ -217,7 +222,7 @@
       <!-- title -->
       <div class="flex items-center justify-center">
         <h3 class="modal-title-e text-lg font-bold text-eBlack">Editar tarefa</h3>
-        <button id="closeBtn">
+        <button id="closeBtnEdit">
           <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
         </button>
       </div>
@@ -284,13 +289,13 @@
 
       <!-- footer -->
       <div class="modal-action justify-center gap-x-4">
-        <button id="closeBtn"
+        <button id="closeBtnEdit"
           class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">
           Cancelar
         </button>
         <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
-          (click)="createTask()">
-          <img src="../../assets/square-plus 1.svg" alt="" srcset="" (click)="updateTarefa()" />
+          (click)="updateTarefa()">
+          <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
           Editar
         </a>
       </div>

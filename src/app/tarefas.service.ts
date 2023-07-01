@@ -36,10 +36,7 @@ export class TarefasService {
 
   async getTasksByUserID(userID: string) {
     try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const tasks: any[] = [];
       querySnapshot.forEach((doc) => {
@@ -55,10 +52,7 @@ export class TarefasService {
   async getAllResponsaveis(userID: string) {
     try {
       // const q = query(collection(this.db, 'tasks'));
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const responsaveis: string[] = [];
       querySnapshot.forEach((doc) => {
@@ -74,13 +68,28 @@ export class TarefasService {
     }
   }
 
+  async getAllProjetos(userID: string) {
+    try {
+      // const q = query(collection(this.db, 'tasks'));
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
+      const querySnapshot = await getDocs(q);
+      const projetos: string[] = [];
+      querySnapshot.forEach((doc) => {
+        const projeto = doc.data()['projeto'];
+        if (projeto && !projetos.includes(projeto)) {
+          projetos.push(projeto);
+        }
+      });
+      return projetos;
+    } catch (e) {
+      console.error('Erro: ', e);
+      return [];
+    }
+  }
+
   async getTasksByProjetoUserID(projeto: string, userID: string) {
     try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('projeto', '==', projeto),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('projeto', '==', projeto), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const tasks: any[] = [];
       querySnapshot.forEach((doc) => {
@@ -94,11 +103,7 @@ export class TarefasService {
   }
 
   // responsavel, status
-  async getTasksByResponsavelStatusUserID(
-    responsavel: string,
-    status: string,
-    userID: string
-  ) {
+  async getTasksByResponsavelStatusUserID(responsavel: string, status: string, userID: string) {
     try {
       const q = query(
         collection(this.db, 'tasks'),
@@ -120,11 +125,7 @@ export class TarefasService {
 
   async getTasksByStatusUserID(status: string, userID: string) {
     try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('status', '==', status),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('status', '==', status), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const tasks: any[] = [];
       querySnapshot.forEach((doc) => {
@@ -156,11 +157,7 @@ export class TarefasService {
     }
   }
 
-  async getTasksByProjetoStatusUserID(
-    projeto: string,
-    status: string,
-    userID: string
-  ) {
+  async getTasksByProjetoStatusUserID(projeto: string, status: string, userID: string) {
     try {
       const q = query(
         collection(this.db, 'tasks'),
@@ -180,11 +177,7 @@ export class TarefasService {
     }
   }
 
-  async getTasksByProjetoResponsavelUserID(
-    projeto: string,
-    responsavel: string,
-    userID: string
-  ) {
+  async getTasksByProjetoResponsavelUserID(projeto: string, responsavel: string, userID: string) {
     try {
       const q = query(
         collection(this.db, 'tasks'),
@@ -204,12 +197,7 @@ export class TarefasService {
     }
   }
 
-  async getTasksByAllUserID(
-    projeto: string,
-    status: string,
-    responsavel: string,
-    userID: string
-  ) {
+  async getTasksByAllUserID(projeto: string, status: string, responsavel: string, userID: string) {
     try {
       const q = query(
         collection(this.db, 'tasks'),
