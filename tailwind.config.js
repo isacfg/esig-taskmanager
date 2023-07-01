@@ -16,6 +16,8 @@ module.exports = {
 
         "eLightGrey": "#f5f5f5",
 
+        "eDarkGrey": "#f1e6fc",
+
         "eBlack": "#263238",
 
         "eRed": "#ff1414",

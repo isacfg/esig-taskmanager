@@ -1,73 +1,69 @@
-<div *ngIf="isLogged" class="container mx-auto mt-2 ">
-  <div class="topnav flex flex-row justify-between w-full mx-auto px-8 py-4">
-
+<div *ngIf="isLogged" class="container mx-auto mt-2">
+  <div class="topnav mx-auto flex w-full flex-row justify-between px-8 py-4">
     <div>
-      <h1 class="text-2xl text-eBlack font-extrabold">Tarefas</h1>
+      <h1 class="text-2xl font-extrabold text-eBlack">Tarefas</h1>
       <div>
-        <a class=" text-eBlack underline " routerLink="">Dashboard</a> > <a class="text-eBlack"
-          routerLink="/tasks">Tarefas</a>
+        <a class="text-eBlack underline" routerLink="">Dashboard</a> >
+        <a class="text-eBlack" routerLink="/tasks">Tarefas</a>
       </div>
     </div>
 
     <!-- adicionar tarefa -->
     <button onclick="my_modal_1.showModal()"
-      class="btn btn-secondary text-white bg-eBlue border-none hover:bg-eDarkBlue capitalize">
-      <img src="../../assets/square-plus 1.svg" alt="" srcset="">
+      class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue">
+      <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
       Nova tarefa
     </button>
   </div>
 
   <!-- search -->
 
-  <div class="flex w-full mx-auto px-8 mt-2 gap-x-2 justify-between">
-    <div class="flex   gap-x-2">
+  <div class="mx-auto mt-2 flex w-full justify-between gap-x-2 px-8">
+    <div class="flex gap-x-2">
       <input [(ngModel)]="searchInput" name="searchInput" type="text" placeholder="Buscar por título"
-        class="input input-bordered w-1/2" />
+        class="input-bordered input w-1/2" />
 
       <!-- responsavel -->
       <select [(ngModel)]="responsavelSearch" name="responsavelSearch" id="responsaveis"
-        class="select select-bordered  max-w-xs">
-        <option value="default" disabled selected>Responsável: </option>
+        class="select-bordered select max-w-xs">
+        <option value="default" disabled selected>Responsável:</option>
         <ng-container *ngFor="let res of arrayResponsaveis">
           <option>{{res}}</option>
         </ng-container>
       </select>
       <!-- status -->
-      <select [(ngModel)]="statusSearch" name="statusSearch" class="select select-bordered max-w-xs">
-        <option value="default" disabled selected>Status: </option>
+      <select [(ngModel)]="statusSearch" name="statusSearch" class="select-bordered select max-w-xs">
+        <option value="default" disabled selected>Status:</option>
         <option>Não iniciada</option>
         <option>Em andamento</option>
         <option>Concluída</option>
       </select>
       <!-- prioridade -->
-      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select select-bordered max-w-xs">
-        <option value="default" disabled selected>Prioridade: </option>
+      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select-bordered select max-w-xs">
+        <option value="default" disabled selected>Prioridade:</option>
         <option>Alta</option>
         <option>Média</option>
         <option>Baixa</option>
       </select>
 
-      <button (click)="search()" class="btn btn-secondary">
-        <fa-icon class="text-white text-xl" [icon]="faSearch"></fa-icon>
+      <button (click)="search()" class="btn-secondary btn">
+        <fa-icon class="text-xl text-white" [icon]="faSearch"></fa-icon>
       </button>
     </div>
-
   </div>
 
-
   <!-- divider -->
-  <div class="flex flex-col w-full mx-auto px-8 border-opacity-50">
+  <div class="mx-auto flex w-full flex-col border-opacity-50 px-8">
     <div class="divider"></div>
   </div>
 
   <!-- tasks container -->
 
-  <div class="overflow-x-auto w-full mx-auto px-8">
+  <div class="mx-auto w-full overflow-x-auto px-8">
     <table class="table">
       <!-- head -->
       <thead>
         <tr>
-
           <th>Tarefa</th>
           <th>Membros</th>
           <th>Prazo</th>
@@ -75,12 +71,10 @@
         </tr>
       </thead>
       <tbody>
-
         <!-- individual tasks -->
         <tr *ngFor="let task of tasks">
           <td>
             <div class="flex items-center space-x-3">
-
               <div>
                 <div class="font-bold">{{task.title}}</div>
                 <div class="flex gap-x-1">
@@ -99,12 +93,17 @@
           <th>
             <button
               (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
-              onclick="viewModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon [icon]="faInfo"></fa-icon></button>
+              onclick="viewModal.showModal()" class="btn-ghost btn-xs btn">
+              <fa-icon [icon]="faInfo"></fa-icon>
+            </button>
             <button
               (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
-              onclick="editModal.showModal()" class="btn btn-ghost btn-xs"><fa-icon [icon]="faEdit"></fa-icon></button>
-            <button (click)="selectTarefa(task.id)" onclick="deleteModal.showModal()"
-              class="btn btn-ghost btn-xs"><fa-icon [icon]="faDelete"></fa-icon></button>
+              onclick="editModal.showModal()" class="btn-ghost btn-xs btn">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button (click)="selectTarefa(task.id)" onclick="deleteModal.showModal()" class="btn-ghost btn-xs btn">
+              <fa-icon [icon]="faDelete"></fa-icon>
+            </button>
           </th>
         </tr>
         <!-- individual tasks -->
@@ -118,44 +117,41 @@
           <th></th>
         </tr>
       </tfoot>
-
     </table>
   </div>
 
-
   <!-- modal criar tarefa -->
   <dialog id="my_modal_1" class="modal">
-    <form method="dialog" class="modal-box  w-3/4 max-w-4xl">
-      <h3 class="font-bold text-lg">Adicionar tarefa</h3>
-      <div class="w-full   ">
+    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
+      <h3 class="text-lg font-bold">Adicionar tarefa</h3>
+      <div class="w-full">
         <div class="flex flex-col">
           <input [(ngModel)]="title" type="text" name="title" placeholder="Nome da tarefa"
-            class="input input-bordered  bg-white mt-4  " />
+            class="input-bordered input mt-4 bg-white" />
 
-          <textarea [(ngModel)]="description" name="description" class="textarea textarea-bordered mt-4"
+          <textarea [(ngModel)]="description" name="description" class="textarea-bordered textarea mt-4"
             placeholder="Descrição"></textarea>
 
           <!-- responsavel -->
           <input [(ngModel)]="responsavel" name="responsavel" type="text" placeholder="Responsável"
-            class="input input-bordered  bg-white mt-4  " />
+            class="input-bordered input mt-4 bg-white" />
 
           <!-- projeto -->
           <input [(ngModel)]="projeto" name="projeto" type="text" placeholder="Projeto"
-            class="input input-bordered  bg-white mt-4  " />
-
+            class="input-bordered input mt-4 bg-white" />
 
           <div class="flex flex-wrap gap-x-2">
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="select select-bordered  max-w-xs mt-4">
-              <option disabled selected>Prioridade: </option>
+            <select [(ngModel)]="prioridade" name="prioridade" class="select-bordered select mt-4 max-w-xs">
+              <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
               <option>Baixa</option>
             </select>
 
             <!-- status -->
-            <select [(ngModel)]="status" name="status" class="select select-bordered  max-w-xs mt-4">
-              <option disabled selected>Status: </option>
+            <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 max-w-xs">
+              <option disabled selected>Status:</option>
               <option>Não iniciada</option>
               <option>Em andamento</option>
               <option>Concluída</option>
@@ -163,57 +159,49 @@
 
             <!-- prazo -->
             <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
-              class="input input-bordered  bg-white mt-4  " />
-
+              class="input-bordered input mt-4 bg-white" />
           </div>
-
-
         </div>
-
-
-
       </div>
       <div class="modal-action">
-
         <button id="closeBtn" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
-        <a class="btn bg-green-500 hover:bg-green-800 hover:text-white text-white" (click)="createTask()">Adicionar</a>
+        <a class="btn bg-green-500 text-white hover:bg-green-800 hover:text-white" (click)="createTask()">Adicionar</a>
       </div>
     </form>
   </dialog>
 
   <!-- modal de editar -->
   <dialog id="editModal" class="modal">
-    <form method="dialog" class="modal-box  w-3/4 max-w-4xl">
-      <h3 class="font-bold text-lg">Adicionar tarefa</h3>
-      <div class="w-full   ">
+    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
+      <h3 class="text-lg font-bold">Adicionar tarefa</h3>
+      <div class="w-full">
         <div class="flex flex-col">
           <input [(ngModel)]="title" type="text" name="title" placeholder="Nome da tarefa"
-            class="input input-bordered  bg-white mt-4  " />
+            class="input-bordered input mt-4 bg-white" />
 
-          <textarea [(ngModel)]="description" name="description" class="textarea textarea-bordered mt-4"
+          <textarea [(ngModel)]="description" name="description" class="textarea-bordered textarea mt-4"
             placeholder="Descrição"></textarea>
 
           <!-- responsavel -->
           <input [(ngModel)]="responsavel" name="responsavel" type="text" placeholder="Responsável"
-            class="input input-bordered  bg-white mt-4  " />
+            class="input-bordered input mt-4 bg-white" />
 
           <!-- projeto -->
           <input [(ngModel)]="projeto" name="projeto" type="text" placeholder="Projeto"
-            class="input input-bordered  bg-white mt-4  " />
-
+            class="input-bordered input mt-4 bg-white" />
 
           <div class="flex flex-wrap gap-x-2">
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="select select-bordered  max-w-xs mt-4">
-              <option disabled selected>Prioridade: </option>
+            <select [(ngModel)]="prioridade" name="prioridade" class="select-bordered select mt-4 max-w-xs">
+              <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
               <option>Baixa</option>
             </select>
 
             <!-- status -->
-            <select [(ngModel)]="status" name="status" class="select select-bordered  max-w-xs mt-4">
-              <option disabled selected>Status: </option>
+            <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 max-w-xs">
+              <option disabled selected>Status:</option>
               <option>Não iniciada</option>
               <option>Em andamento</option>
               <option>Concluída</option>
@@ -221,30 +209,22 @@
 
             <!-- prazo -->
             <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
-              class="input input-bordered  bg-white mt-4  " />
-
+              class="input-bordered input mt-4 bg-white" />
           </div>
-
-
         </div>
-
-
-
       </div>
       <div class="modal-action">
-
         <button id="closeBtnEdit" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
-        <a class="btn bg-green-500 hover:bg-green-800 hover:text-white text-white" (click)="updateTarefa()">Editar</a>
+        <a class="btn bg-green-500 text-white hover:bg-green-800 hover:text-white" (click)="updateTarefa()">Editar</a>
       </div>
     </form>
   </dialog>
 
-
   <!-- modal de informações -->
   <dialog id="viewModal" class="modal">
-    <form method="dialog" class="modal-box  w-3/4 max-w-4xl">
-      <h3 class="font-bold text-lg">Informações da tarefa</h3>
-      <div class="w-full  flex flex-row ">
+    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
+      <h3 class="text-lg font-bold">Informações da tarefa</h3>
+      <div class="flex w-full flex-row">
         <div class="flex w-1/2 flex-col">
           <p class="py-2"><span class="font-semibold">Titulo:</span> {{this.title}}</p>
           <p class="py-2"><span class="font-semibold">ID:</span> {{this.selectedID}}</p>
@@ -258,14 +238,9 @@
           <p class="py-2"><span class="font-semibold">Status:</span> {{this.status}}</p>
           <p class="py-2"><span class="font-semibold">Prazo:</span> {{this.prazo}}</p>
         </div>
-
-
-
       </div>
       <div class="modal-action">
-
-        <button (click)="clearInputs()" id="closeBtnEdit" class="btn ">Fechar</button>
-
+        <button (click)="clearInputs()" id="closeBtnEdit" class="btn">Fechar</button>
       </div>
     </form>
   </dialog>
@@ -273,20 +248,17 @@
   <!-- modal de deletar -->
   <dialog id="deleteModal" class="modal">
     <form method="dialog" class="modal-box">
-      <h3 class="font-bold text-lg">Deletar Tarefa</h3>
+      <h3 class="text-lg font-bold">Deletar Tarefa</h3>
       <p class="py-4">Tem certeza que quer deletar essa tarefa?</p>
       <div class="modal-action">
         <button (click)="selectTarefa('')" id="deleteModalBtn" class="btn">Cancelar</button>
         <a class="btn bg-red-500 text-white" (click)="deleteTarefa()">Deletar</a>
       </div>
-
     </form>
   </dialog>
-
 </div>
 
-
 <!-- se nao estiver logado -->
-<div *ngIf="!isLogged" class="w-full h-screen container mx-auto flex justify-center items-center">
+<div *ngIf="!isLogged" class="container mx-auto flex h-screen w-full items-center justify-center">
   <app-loading></app-loading>
 </div>

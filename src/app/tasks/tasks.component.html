@@ -9,10 +9,8 @@
     </div>
 
     <!-- adicionar tarefa -->
-    <button
-      onclick="my_modal_1.showModal()"
-      class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
-    >
+    <button onclick="my_modal_1.showModal()"
+      class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue">
       <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
       Nova tarefa
     </button>
@@ -21,35 +19,33 @@
   <!-- display tasks container -->
   <div class="tasks-container mx-auto mt-4 rounded-lg bg-white">
     <!-- filters -->
-    <div class="flex flex-row justify-end gap-x-4 p-4">
+    <div class="flex flex-row justify-end gap-x-4 p-4 flex-wrap max-md:justify-start max-md:gap-2">
       <!-- projetos -->
-      <select
-        [(ngModel)]="responsavelSearch"
-        name="responsavelSearch"
-        id="responsaveis"
-        class="select-bordered select max-w-xs"
-      >
+      <select [(ngModel)]="responsavelSearch" name="responsavelSearch" id="responsaveis"
+        class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Projetos</option>
         <ng-container *ngFor="let res of arrayResponsaveis">
           <option>{{ res }}</option>
         </ng-container>
       </select>
       <!-- status -->
-      <select [(ngModel)]="statusSearch" name="statusSearch" class="select-bordered select max-w-xs">
+      <select [(ngModel)]="statusSearch" name="statusSearch" class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Status</option>
         <option>Não iniciada</option>
         <option>Em andamento</option>
         <option>Concluída</option>
       </select>
       <!-- prioridade -->
-      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select-bordered select max-w-xs">
+      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch"
+        class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Todas as Prioridades</option>
         <option>Alta</option>
         <option>Média</option>
         <option>Baixa</option>
       </select>
       <!-- prioridade -->
-      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch" class="select-bordered select max-w-xs">
+      <select [(ngModel)]="prioridadeSearch" name="prioridadeSearch"
+        class="select-bordered select max-w-xs mob-width-100cent">
         <option value="default" disabled selected>Prioridade:</option>
         <option>Alta</option>
         <option>Média</option>
@@ -58,7 +54,7 @@
     </div>
 
     <!-- tarefas -->
-    <div class="mx-auto w-full overflow-x-auto p-4">
+    <div class="mx-auto w-full overflow-x-auto p-4 max-w-80cent">
       <table class="table">
         <!-- head -->
         <thead>
@@ -74,29 +70,51 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td class="w-28cent task cursor-pointer underline">Adjust concentrates to behaviour and str...</td>
+          <tr *ngFor="let task of tasks">
+            <td class="w-28cent task cursor-pointer truncate underline">{{task.title}}</td>
 
             <td class="w-8cent">
-              <p class="rounded-lg bg-eRed py-1 text-center text-white">Alta</p>
+              <p class="rounded-lg  py-1 text-center text-white" [ngClass]="{
+                'bg-eRed': task.prioridade == 'Baixa',
+                'bg-yellow-500': task.prioridade == 'Média',
+                'bg-eGreen': task.prioridade == 'Alta'
+              }">{{task.prioridade}}</p>
             </td>
 
-            <td class="w-12cent task cursor-pointer underline">Gateway of Pac..</td>
+            <td class="w-12cent task cursor-pointer truncate underline">{{task.projeto}}</td>
 
             <td class="w-8cent">
-              <p class="rounded-lg bg-eGreen py-1 text-center text-white">Conc..</p>
+              <p class="rounded-lg px-1 truncate bg-eGreen py-1 text-center text-white max-w-60px " [ngClass]="{
+                'bg-eRed': task.status == 'Não iniciada',
+                'bg-yellow-500': task.status == 'Em andamento',
+                'bg-eGreen': task.status == 'Concluída'
+              }">{{task.status}}</p>
             </td>
 
-            <td class="w-12cent task">Miles, Esther</td>
+            <td class="w-12cent task">{{task.responsavel}}</td>
 
-            <td class="w-12cent task">Wed 11 Aug</td>
+            <td class="w-12cent  ">
+              <p class="width112 truncate ">{{task.prazo}}</p>
+            </td>
 
             <td class="w-12cent">
-              <img src="../../../assets/trash.svg" alt="" srcset="">
-              <img src="../../../assets/eye.svg" alt="" srcset="">
-              <img src="../../../assets/blog-pencil.svg" alt="" srcset="">
-              
+              <div class="flex flex-row gap-x-2">
+                <!-- delete -->
+                <img onclick="deleteModal.showModal()" class="w-5 cursor-pointer" src="../../../assets/trash.svg" alt=""
+                  srcset="" />
 
+                <!-- view -->
+                <img
+                  (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+                  onclick="viewModal.showModal()" class="w-5 cursor-pointer" src="../../../assets/eye.svg" alt=""
+                  srcset="" />
+
+                <!-- edit -->
+                <img
+                  (click)="updateInputs(task.title, task.description, task.prioridade, task.status, task.prazo, task.responsavel, task.projeto, task.id)"
+                  onclick="editModal.showModal()" onclick="editModal.showModal()" class="w-5 cursor-pointer"
+                  src="../../../assets/blog-pencil.svg" alt="" srcset="" />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -106,173 +124,216 @@
 
   <!-- modal criar tarefa -->
   <dialog id="my_modal_1" class="modal">
-    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
-      <h3 class="text-lg font-bold">Adicionar tarefa</h3>
-      <div class="w-full">
+    <form method="dialog" class="modal-box">
+      <!-- title -->
+      <div class="flex items-center justify-center">
+        <h3 class="modal-title-e text-lg font-bold text-eBlack">Criar tarefa</h3>
+        <button id="closeBtn">
+          <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
+        </button>
+      </div>
+
+      <!-- body -->
+      <div class="w-full px-4">
         <div class="flex flex-col">
-          <input
-            [(ngModel)]="title"
-            type="text"
-            name="title"
-            placeholder="Nome da tarefa"
-            class="input-bordered input mt-4 bg-white"
-          />
+          <input [(ngModel)]="title" type="text" name="title" placeholder="Título da tarefa"
+            class="input-bordered input mt-4 bg-white text-sm" />
 
-          <textarea
-            [(ngModel)]="description"
-            name="description"
-            class="textarea-bordered textarea mt-4"
-            placeholder="Descrição"
-          ></textarea>
+          <textarea [(ngModel)]="description" name="description" class="textarea-bordered textarea mt-4"
+            placeholder="Detalhes da tarefa"></textarea>
 
-          <!-- responsavel -->
-          <input
-            [(ngModel)]="responsavel"
-            name="responsavel"
-            type="text"
-            placeholder="Responsável"
-            class="input-bordered input mt-4 bg-white"
-          />
+          <div class="flex w-full justify-between">
+            <!-- prazo -->
+            <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
+              class="w-48cent input-bordered input mt-4 bg-white" />
 
-          <!-- projeto -->
-          <input
-            [(ngModel)]="projeto"
-            name="projeto"
-            type="text"
-            placeholder="Projeto"
-            class="input-bordered input mt-4 bg-white"
-          />
-
-          <div class="flex flex-wrap gap-x-2">
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="select-bordered select mt-4 max-w-xs">
+            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent select-bordered select mt-4 max-w-xs">
               <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
               <option>Baixa</option>
             </select>
+          </div>
 
-            <!-- status -->
-            <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 max-w-xs">
-              <option disabled selected>Status:</option>
-              <option>Não iniciada</option>
-              <option>Em andamento</option>
-              <option>Concluída</option>
-            </select>
+          <div class="flex w-full flex-wrap justify-between">
+            <!-- responsavel -->
+            <input [(ngModel)]="responsavel" name="responsavel" type="text" placeholder="Responsável"
+              class="w-48cent input-bordered input mt-4 bg-white" />
 
-            <!-- prazo -->
-            <input
-              [(ngModel)]="prazo"
-              name="prazo"
-              type="date"
-              placeholder="Prazo"
-              class="input-bordered input mt-4 bg-white"
-            />
+            <!-- projeto -->
+            <input [(ngModel)]="projeto" name="projeto" type="text" placeholder="Projeto"
+              class="w-48cent input-bordered input mt-4 bg-white" />
+          </div>
+
+          <!-- status -->
+          <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 w-full">
+            <option disabled selected>Status:</option>
+            <option>Não iniciada</option>
+            <option>Em andamento</option>
+            <option>Concluída</option>
+          </select>
+
+          <!-- anexo -->
+          <div class="mt-4 flex flex-col">
+            <label for="dropzone-file"
+              class="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 ">
+              <div class="flex flex-col items-center justify-center pb-6 pt-5">
+
+                <img class="mb-3 h-10 w-10" src="../../assets/upload 1.svg" alt="" srcset="">
+
+                <p class="mb-2 text-sm text-gray-500 ">
+                  <span class="font-semibold">Anexar arquivo</span>
+                </p>
+                <p class="text-xs text-gray-500 ">A better way to tell which species are vulnerable</p>
+              </div>
+              <input id="dropzone-file" type="file" class="hidden" />
+            </label>
           </div>
         </div>
       </div>
-      <div class="modal-action">
-        <button id="closeBtn" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
-        <a class="btn bg-green-500 text-white hover:bg-green-800 hover:text-white" (click)="createTask()">Adicionar</a>
+
+      <!-- footer -->
+      <div class="modal-action justify-center gap-x-4">
+        <button id="closeBtn"
+          class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">
+          Cancelar
+        </button>
+        <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
+          (click)="createTask()">
+          <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
+          Criar Tarefa
+        </a>
       </div>
     </form>
   </dialog>
 
   <!-- modal de editar -->
   <dialog id="editModal" class="modal">
-    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
-      <h3 class="text-lg font-bold">Adicionar tarefa</h3>
-      <div class="w-full">
+
+    <form method="dialog" class="modal-box ">
+
+
+      <!-- title -->
+      <div class="flex items-center justify-center">
+        <h3 class="modal-title-e text-lg font-bold text-eBlack">Editar tarefa</h3>
+        <button id="closeBtn">
+          <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
+        </button>
+      </div>
+
+      <!-- body -->
+      <div class="w-full px-4">
         <div class="flex flex-col">
-          <input
-            [(ngModel)]="title"
-            type="text"
-            name="title"
-            placeholder="Nome da tarefa"
-            class="input-bordered input mt-4 bg-white"
-          />
+          <input [(ngModel)]="title" type="text" name="title" placeholder="Título da tarefa"
+            class="input-bordered input mt-4 bg-white text-sm" />
 
-          <textarea
-            [(ngModel)]="description"
-            name="description"
-            class="textarea-bordered textarea mt-4"
-            placeholder="Descrição"
-          ></textarea>
+          <textarea [(ngModel)]="description" name="description" class="textarea-bordered textarea mt-4"
+            placeholder="Detalhes da tarefa"></textarea>
 
-          <!-- responsavel -->
-          <input
-            [(ngModel)]="responsavel"
-            name="responsavel"
-            type="text"
-            placeholder="Responsável"
-            class="input-bordered input mt-4 bg-white"
-          />
+          <div class="flex w-full justify-between">
+            <!-- prazo -->
+            <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
+              class="w-48cent input-bordered input mt-4 bg-white" />
 
-          <!-- projeto -->
-          <input
-            [(ngModel)]="projeto"
-            name="projeto"
-            type="text"
-            placeholder="Projeto"
-            class="input-bordered input mt-4 bg-white"
-          />
-
-          <div class="flex flex-wrap gap-x-2">
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="select-bordered select mt-4 max-w-xs">
+            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent select-bordered select mt-4 max-w-xs">
               <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
               <option>Baixa</option>
             </select>
+          </div>
 
-            <!-- status -->
-            <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 max-w-xs">
-              <option disabled selected>Status:</option>
-              <option>Não iniciada</option>
-              <option>Em andamento</option>
-              <option>Concluída</option>
-            </select>
+          <div class="flex w-full flex-wrap justify-between">
+            <!-- responsavel -->
+            <input [(ngModel)]="responsavel" name="responsavel" type="text" placeholder="Responsável"
+              class="w-48cent input-bordered input mt-4 bg-white" />
 
-            <!-- prazo -->
-            <input
-              [(ngModel)]="prazo"
-              name="prazo"
-              type="date"
-              placeholder="Prazo"
-              class="input-bordered input mt-4 bg-white"
-            />
+            <!-- projeto -->
+            <input [(ngModel)]="projeto" name="projeto" type="text" placeholder="Projeto"
+              class="w-48cent input-bordered input mt-4 bg-white" />
+          </div>
+
+          <!-- status -->
+          <select [(ngModel)]="status" name="status" class="select-bordered select mt-4 w-full">
+            <option disabled selected>Status:</option>
+            <option>Não iniciada</option>
+            <option>Em andamento</option>
+            <option>Concluída</option>
+          </select>
+
+          <!-- anexo -->
+          <div class="mt-4 flex flex-col">
+            <label for="dropzone-file"
+              class="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 ">
+              <div class="flex flex-col items-center justify-center pb-6 pt-5">
+
+                <img class="mb-3 h-10 w-10" src="../../assets/upload 1.svg" alt="" srcset="">
+
+                <p class="mb-2 text-sm text-gray-500 ">
+                  <span class="font-semibold">Anexar arquivo</span>
+                </p>
+                <p class="text-xs text-gray-500 ">A better way to tell which species are vulnerable</p>
+              </div>
+              <input id="dropzone-file" type="file" class="hidden" />
+            </label>
           </div>
         </div>
       </div>
-      <div class="modal-action">
-        <button id="closeBtnEdit" class="btn bg-red-500 text-white hover:bg-red-800 hover:text-white">Fechar</button>
-        <a class="btn bg-green-500 text-white hover:bg-green-800 hover:text-white" (click)="updateTarefa()">Editar</a>
+
+      <!-- footer -->
+      <div class="modal-action justify-center gap-x-4">
+        <button id="closeBtn"
+          class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">
+          Cancelar
+        </button>
+        <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
+          (click)="createTask()">
+          <img src="../../assets/square-plus 1.svg" alt="" srcset="" (click)="updateTarefa()" />
+          Editar
+        </a>
       </div>
+
     </form>
   </dialog>
 
   <!-- modal de informações -->
   <dialog id="viewModal" class="modal">
-    <form method="dialog" class="modal-box w-3/4 max-w-4xl">
-      <h3 class="text-lg font-bold">Informações da tarefa</h3>
-      <div class="flex w-full flex-row">
-        <div class="flex w-1/2 flex-col">
-          <p class="py-2"><span class="font-semibold">Titulo:</span> {{ this.title }}</p>
-          <p class="py-2"><span class="font-semibold">ID:</span> {{ this.selectedID }}</p>
-          <p class="py-2"><span class="font-semibold">Descrição:</span> {{ this.description }}</p>
-        </div>
-        <div class="flex flex-col">
-          <p class="py-2"><span class="font-semibold">Responsável:</span> {{ this.responsavel }}</p>
-          <p class="py-2"><span class="font-semibold">Projeto:</span> {{ this.projeto }}</p>
-          <p class="py-2"><span class="font-semibold">Prioridade:</span> {{ this.prioridade }}</p>
+    <form method="dialog" class="modal-box ">
 
-          <p class="py-2"><span class="font-semibold">Status:</span> {{ this.status }}</p>
-          <p class="py-2"><span class="font-semibold">Prazo:</span> {{ this.prazo }}</p>
+      <!-- title -->
+      <div class="flex items-center mb-4 justify-center">
+        <h3 class="modal-title-e text-lg font-bold text-eBlack">Informações da tarefa</h3>
+        <!-- <button id="closeBtn">
+          <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
+        </button> -->
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex flex-row">
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Titulo:</span> {{ this.title }}</p>
+            <p class="py-2"><span class="font-semibold">ID:</span> {{ this.selectedID }}</p>
+            <p class="py-2"><span class="font-semibold">Descrição:</span> {{ this.description }}</p>
+          </div>
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Responsável:</span> {{ this.responsavel }}</p>
+            <p class="py-2"><span class="font-semibold">Projeto:</span> {{ this.projeto }}</p>
+            <p class="py-2"><span class="font-semibold">Prioridade:</span> {{ this.prioridade }}</p>
+          </div>
+        </div>
+        <div class="flex flex-row">
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Status:</span> {{ this.status }}</p>
+            <p class="py-2"><span class="font-semibold">Prazo:</span> {{ this.prazo }}</p>
+          </div>
         </div>
       </div>
-      <div class="modal-action">
-        <button (click)="clearInputs()" id="closeBtnEdit" class="btn">Fechar</button>
+
+      <div class="modal-action justify-center gap-x-4">
+        <button (click)="clearInputs()" id="closeBtnEdit"
+          class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">Fechar</button>
       </div>
     </form>
   </dialog>
@@ -280,12 +341,23 @@
   <!-- modal de deletar -->
   <dialog id="deleteModal" class="modal">
     <form method="dialog" class="modal-box">
-      <h3 class="text-lg font-bold">Deletar Tarefa</h3>
-      <p class="py-4">Tem certeza que quer deletar essa tarefa?</p>
-      <div class="modal-action">
-        <button (click)="selectTarefa('')" id="deleteModalBtn" class="btn">Cancelar</button>
-        <a class="btn bg-red-500 text-white" (click)="deleteTarefa()">Deletar</a>
+      <!-- title -->
+      <div class="flex items-center justify-center">
+        <h3 class="modal-title-e text-lg font-bold text-eBlack">Deletar tarefa</h3>
+        <button id="deleteModalBtn">
+          <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
+        </button>
       </div>
+      <p class="my-4 mb-4 text-center">Tem certeza que quer deletar essa tarefa?</p>
+
+      <!-- footer -->
+      <div class="modal-action justify-center gap-x-4">
+        <button (click)="selectTarefa('')" id="deleteModalBtn"
+          class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">Cancelar</button>
+        <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
+          (click)="deleteTarefa()">Deletar</a>
+      </div>
+
     </form>
   </dialog>
 </div>

@@ -10,10 +10,12 @@
   width: 28%;
 }
 
+.w-48cent {
+  width: 48%;
+}
+
 .thead-labels {
   color: #797B7C;
-  leading-trim: both;
-  text-edge: cap;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
@@ -23,15 +25,86 @@
 .task {
   color: #263238;
   overflow: hidden;
-  leading-trim: both;
-  text-edge: cap;
   text-overflow: ellipsis;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
 }
 
 .tasks-container {
   min-height: 70vh
+}
+
+.modal-title-e {
+  color: #263238;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.close-x {
+  position: relative;
+  left: 160px;
+}
+
+.input-bordered {
+  border: 1px solid #E8EEF0 !important;
+
+  font-size: 14px !important;
+  color: #263238;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* .input-bordered::placeholder {
+  color: #263238;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+} */
+
+.textarea-bordered {
+  border: 1px solid #E8EEF0 !important;
+
+  font-size: 14px !important;
+  color: #263238;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+@media (max-width: 768px) {
+  .w-48cent {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .max-w-80cent {
+    max-width: 80vw;
+  }
+
+  .mob-width-100cent {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.max-w-60px {
+  max-width: 60px;
+}
+
+.width112 {
+  width: 112px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }

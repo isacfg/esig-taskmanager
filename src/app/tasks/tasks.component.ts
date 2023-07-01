@@ -4,12 +4,7 @@ import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
-import {
-  faMagnifyingGlass,
-  faCircleInfo,
-  faPen,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faCircleInfo, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-tasks',
@@ -19,7 +14,7 @@ import {
 export class TasksComponent implements OnInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
-  private production: boolean = false;
+  private production: boolean = true;
 
   faSearch = faMagnifyingGlass;
   faInfo = faCircleInfo;
@@ -62,9 +57,7 @@ export class TasksComponent implements OnInit {
 
     this.tasks = tasksR;
     this.tasksFiltro = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(
-      this.uid
-    );
+    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(this.uid);
   }
 
   // criar tarefa
@@ -107,16 +100,7 @@ export class TasksComponent implements OnInit {
   }
 
   // editar tarefa
-  async updateInputs(
-    title,
-    description,
-    prioridade,
-    status,
-    prazo,
-    responsavel,
-    projeto,
-    id
-  ) {
+  async updateInputs(title, description, prioridade, status, prazo, responsavel, projeto, id) {
     this.title = title;
     this.description = description;
     this.prioridade = prioridade;
@@ -209,14 +193,8 @@ export class TasksComponent implements OnInit {
       }
 
       // busca por responsavel
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.prioridadeSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.responsavel == this.responsavelSearch
-        );
+      if (this.responsavelSearch != 'default' && this.statusSearch == 'default' && this.prioridadeSearch == 'default') {
+        this.tasks = this.tasksFiltro.filter((task) => task.responsavel == this.responsavelSearch);
         // this.tasks = await this.tarefasService.getTasksByResponsavelUserID(
         //   this.responsavelSearch,
         //   this.uid
@@ -224,72 +202,38 @@ export class TasksComponent implements OnInit {
       }
 
       // busca por responsavel e status
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default'
-      ) {
+      if (this.responsavelSearch != 'default' && this.statusSearch != 'default' && this.prioridadeSearch == 'default') {
         this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.status == this.statusSearch
+          (task) => task.responsavel == this.responsavelSearch && task.status == this.statusSearch
         );
       }
 
       // busca por responsavel e prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default'
-      ) {
+      if (this.responsavelSearch != 'default' && this.prioridadeSearch != 'default' && this.statusSearch == 'default') {
         this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.prioridade == this.prioridadeSearch
+          (task) => task.responsavel == this.responsavelSearch && task.prioridade == this.prioridadeSearch
         );
       }
 
       // busca por status
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.status == this.statusSearch
-        );
+      if (this.statusSearch != 'default' && this.prioridadeSearch == 'default' && this.responsavelSearch == 'default') {
+        this.tasks = this.tasksFiltro.filter((task) => task.status == this.statusSearch);
       }
 
       // busca por status e prioridade
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
+      if (this.statusSearch != 'default' && this.prioridadeSearch != 'default' && this.responsavelSearch == 'default') {
         this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.status == this.statusSearch &&
-            task.prioridade == this.prioridadeSearch
+          (task) => task.status == this.statusSearch && task.prioridade == this.prioridadeSearch
         );
       }
 
       // busca por prioridade
-      if (
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.prioridade == this.prioridadeSearch
-        );
+      if (this.prioridadeSearch != 'default' && this.statusSearch == 'default' && this.responsavelSearch == 'default') {
+        this.tasks = this.tasksFiltro.filter((task) => task.prioridade == this.prioridadeSearch);
       }
 
       // busca por responsavel, status e prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default'
-      ) {
+      if (this.responsavelSearch != 'default' && this.statusSearch != 'default' && this.prioridadeSearch != 'default') {
         this.tasks = this.tasksFiltro.filter(
           (task) =>
             task.responsavel == this.responsavelSearch &&
@@ -312,24 +256,6 @@ export class TasksComponent implements OnInit {
     if (this.production == false) {
       this.isLogged = true;
 
-      // description
-      // "descrição"
-      // prazo
-      // June 28, 2023 at 9:00:00 PM UTC-3
-      // (timestamp)
-      // prioridade
-      // "Média"
-      // projeto
-      // "Projeto Amendis"
-      // responsavel
-      // "Pedro"
-      // status
-      // "Concluída"
-      // title
-      // "Terefa criada editada 2"
-      // userID
-      // "vDJ1fa0ztXYlXyfmKFpHkHHfnPu1"
-
       this.tasks = [
         {
           id: '1',
@@ -347,7 +273,18 @@ export class TasksComponent implements OnInit {
           title: 'Tarefa 2',
           description: 'descrição',
           prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
-          prioridade: 'Média',
+          prioridade: 'Alta',
+          projeto: 'Projeto Amendis',
+          responsavel: 'Pedro',
+          status: 'Concluída',
+          userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+        },
+        {
+          id: '2',
+          title: 'Tarefa 2',
+          description: 'descrição',
+          prazo: 'June 28, 2023 at 9:00:00 PM UTC-3',
+          prioridade: 'Baixa',
           projeto: 'Projeto Amendis',
           responsavel: 'Pedro',
           status: 'Concluída',
