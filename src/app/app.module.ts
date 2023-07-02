@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { TopNavComponent } from './components/top-nav/top-nav.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TopNavComponent } from './components/top-nav/top-nav.component';
     LoadingComponent,
     KanbanComponent,
     TopNavComponent,
+    PerfilComponent,
   ],
   imports: [
     FormsModule,
