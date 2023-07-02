@@ -1,0 +1,90 @@
+<div *ngIf="isLogged" class=" mx-auto px-8 py-4 w-full flex items-center justify-between max-md:px-4">
+
+  <div class="flex gap-x-2">
+    <label for="simple-search" class="sr-only">Buscar tarefas</label>
+
+    <div [class.dropdown-open]="searchValue" id="search-dropdown" class="dropdown dropdown-bottom ">
+
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+        <ng-container *ngFor="let tit of tasksFiltered">
+          <li
+            (click)="updateInputs(tit.title, tit.description, tit.prioridade, tit.status, tit.prazo, tit.responsavel, tit.projeto, tit.id)"
+            onclick="viewModal2.showModal()"><a>{{tit.title}}</a></li>
+        </ng-container>
+      </ul>
+    </div>
+
+    <div class="relative w-full">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+
+
+        <img src="../../../assets/search.svg" class="w-4 h-4" alt="" srcset="">
+
+      </div>
+      <input [(ngModel)]="searchValue" (ngModelChange)="searchTitle()" id="search" type="text"
+        class="bg-white border border-gray-200 text-eBlack text-sm rounded-lg block w-full pl-10 p-2.5 focus:outline-none focus:border-eBlue focus:ring-1 focus:ring-eBborder-eBlue active:bg-gray-100 active:border-gray-200 active:ring-1 active:ring-gray-200"
+        placeholder="Buscar tarefas" required>
+
+
+
+    </div>
+
+    <!-- btn search -->
+    <!-- <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-eBlue hover:bg-eDarkBlue rounded-lg">
+      Buscar
+    </button> -->
+  </div>
+
+  <!-- perfil -->
+  <div class="dropdown dropdown-hover dropdown-bottom dropdown-end cursor-pointer">
+    <label tabindex="0" class="">
+      <img src="../../../assets/profile.png" alt="" class="" srcset="">
+    </label>
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+      <li><a>Perfil</a></li>
+      <li><a (click)="logout()">Sair</a></li>
+    </ul>
+  </div>
+
+
+  <!-- modal de informações -->
+  <dialog id="viewModal2" class="modal">
+    <form method="dialog" class="modal-box ">
+
+      <!-- title -->
+      <div class="flex items-center mb-4 justify-center">
+        <h3 class="modal-title-e text-lg font-bold text-eBlack">Informações da tarefa</h3>
+        <!-- <button id="closeBtn">
+              <img class="close-x" src="../../assets/circle-xmark 1.svg" alt="" srcset="" />
+            </button> -->
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex flex-row">
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Titulo:</span> {{ this.title }}</p>
+            <p class="py-2"><span class="font-semibold">ID:</span> {{ this.selectedID }}</p>
+            <p class="py-2"><span class="font-semibold">Descrição:</span> {{ this.description }}</p>
+          </div>
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Responsável:</span> {{ this.responsavel }}</p>
+            <p class="py-2"><span class="font-semibold">Projeto:</span> {{ this.projeto }}</p>
+            <p class="py-2"><span class="font-semibold">Prioridade:</span> {{ this.prioridade }}</p>
+          </div>
+        </div>
+        <div class="flex flex-row">
+          <div class="flex flex-col w-1/2">
+            <p class="py-2"><span class="font-semibold">Status:</span> {{ this.status }}</p>
+            <p class="py-2"><span class="font-semibold">Prazo:</span> {{ this.prazo }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-action justify-center gap-x-4">
+        <button id="closeBtnEdit"
+          class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">Fechar</button>
+      </div>
+    </form>
+  </dialog>
+
+</div>

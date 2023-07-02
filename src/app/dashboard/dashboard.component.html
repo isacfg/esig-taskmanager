@@ -1,102 +1,130 @@
-<div class="container mx-auto mt-2 " *ngIf="isLogged">
+<div class="container mx-auto mt-2 px-8 py-4
+" *ngIf="isLogged">
   <!-- <p>dashboard works!</p> -->
-  <div class=" flex  w-full mx-auto px-8 py-4">
-    <h1 class="text-4xl text-new-black font-bold">Dashboard</h1>
+  <div class="topnav mx-auto flex w-full flex-row justify-between items-center max-md:flex-col max-md:items-start">
+    <div>
+      <h1 class="text-2xl font-extrabold text-eBlack">Olá {{this.email}},</h1>
+      <p class="text-eBlack">Bem-vindo ao seu gestor de tarefas!</p>
+    </div>
+
+    <div>
+      end
+    </div>
   </div>
 
   <!-- container stats -->
-  <div class="flex w-full mx-auto px-8 py-4 flex-wrap justify-around">
-    <div class="stats shadow">
-      <div class="stat">
-        <div class="stat-title">Todas</div>
-        <div class="stat-value">{{tasks.length}}</div>
-        <div class="stat-desc">Número total de tarefas</div>
+  <div class="mx-auto mt-8 flex w-full flex-wrap justify-between ">
+
+    <!-- card -->
+    <div class="stats w-35cent max-w-330 ">
+      <div class="stat py-8 flex justify-between">
+        <div>
+          <div class="stat-value text-eBlack">{{ tasks.length }}</div>
+          <div class="stat-desc text-eBlack">to do</div>
+        </div>
+        <!-- img -->
+        <div>
+          <img src="../../assets/dash-loading.svg" alt="" srcset="">
+        </div>
       </div>
     </div>
-    <div class="stats shadow">
-      <div class="stat">
-        <div class="stat-title">Concluídas</div>
-        <div class="stat-value ">{{numeroTarefasConcluidas.length}}</div>
-        <div class="stat-desc">Número de tarefas concluídas </div>
+    <!-- fim card -->
+
+    <!-- card -->
+    <div class="stats w-35cent max-w-330 ">
+      <div class="stat py-8 flex justify-between">
+        <div>
+          <div class="stat-value text-eBlack">{{ numeroTarefasEmAndamento.length }}</div>
+          <div class="stat-desc text-eBlack">doing</div>
+        </div>
+        <!-- img -->
+        <div>
+          <img src="../../assets/dash-dev.svg" alt="" srcset="">
+        </div>
       </div>
     </div>
-    <div class="stats shadow">
-      <div class="stat">
-        <div class="stat-title">Em Andamento</div>
-        <div class="stat-value">{{numeroTarefasEmAndamento.length}}</div>
-        <div class="stat-desc">Número de tarefas em andamento</div>
+    <!-- fim card -->
+
+    <!-- card -->
+    <div class="stats w-35cent max-w-330 ">
+      <div class="stat py-8 flex justify-between">
+        <div>
+          <div class="stat-value text-eBlack">{{ numeroTarefasConcluidas.length }}</div>
+          <div class="stat-desc text-eBlack">done</div>
+        </div>
+        <!-- img -->
+        <div>
+          <img src="../../assets/dash-done.svg" alt="" srcset="">
+        </div>
       </div>
     </div>
-    <div class="stats shadow">
-      <div class="stat">
-        <div class="stat-title">Alta prioridade</div>
-        <div class="stat-value">{{tasksHighPriority.length}}</div>
-        <div class="stat-desc">Número de alta prioridade</div>
-      </div>
-    </div>
+    <!-- fim card -->
+
+
   </div>
 
-  <div class="flex w-full mx-auto px-8 py-4 gap-x-12 flex-wrap">
-    <!-- tarefas de alta prioridade -->
-    <div class="w-1/2">
-      <p class="text-sm font-medium pl-2 pb-2">Tarefas de alta prioridade!</p>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th>Tarefa</th>
-              <th>Status
-              </th>
-              <th>Prioridade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let task of tasksHighPriority">
-              <td>{{task.title}}</td>
-              <!-- <span class="badge badge-sm text-white"
-                [ngClass]="{'badge-error text-white': task.prioridade === 'Alta', 'badge-warning text-white': task.prioridade === 'Média', 'badge-success text-white': task.prioridade === 'Baixa' }">{{task.prioridade}}</span> -->
-              <!-- stauts -->
-              <td>
-                <span class="badge  text-white"
-                  [ngClass]="{'bg-green-400 text-white': task.status === 'Concluída', 'bg-yellow-500 text-white': task.status === 'Em andamento', 'bg-red-500 text-white': task.status === 'Não iniciada' }">
-                  {{ task.status }}
-                </span>
-              </td>
-              <td><span class="badge bg-red-500 text-white ">{{task.prioridade}}</span>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <!-- responsaveis -->
-    <div class="w-2/5">
-      <p class="text-sm font-medium pl-2 pb-2">Responsáveis</p>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th>Responsável</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let res of arrayResponsaveis">
-              <td>{{res}}</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
 </div>
 
+<div class="mx-auto mt-8 flex w-full flex-wrap gap-x-12 ">
+  <!-- tarefas de alta prioridade -->
+  <div class="w-1/2">
+    <p class="pb-2 pl-2 text-sm font-medium">Tarefas de alta prioridade!</p>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Tarefa</th>
+            <th>Status</th>
+            <th>Prioridade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasksHighPriority">
+            <td>{{ task.title }}</td>
+            <!-- <span class="badge badge-sm text-white"
+                [ngClass]="{'badge-error text-white': task.prioridade === 'Alta', 'badge-warning text-white': task.prioridade === 'Média', 'badge-success text-white': task.prioridade === 'Baixa' }">{{task.prioridade}}</span> -->
+            <!-- stauts -->
+            <td>
+              <span class="badge text-white" [ngClass]="{
+                    'bg-green-400 text-white': task.status === 'Concluída',
+                    'bg-yellow-500 text-white': task.status === 'Em andamento',
+                    'bg-red-500 text-white': task.status === 'Não iniciada'
+                  }">
+                {{ task.status }}
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-red-500 text-white">{{ task.prioridade }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- responsaveis -->
+  <div class="w-2/5">
+    <p class="pb-2 pl-2 text-sm font-medium">Responsáveis</p>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let res of arrayResponsaveis">
+            <td>{{ res }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 <!-- se nao estiver logado -->
-<div *ngIf="!isLogged" class="w-full h-screen container mx-auto flex justify-center items-center">
+<div *ngIf="!isLogged" class="container mx-auto flex h-screen w-full items-center justify-center">
   <app-loading></app-loading>
 </div>

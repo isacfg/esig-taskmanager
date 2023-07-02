@@ -1,0 +1,24 @@
+.w-35cent {
+  width: 35%;
+}
+
+.max-w-330 {
+  max-width: 330px;
+}
+
+.stat-desc {
+  color: #263238;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.stat-value {
+  color: #263238;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  text-transform: uppercase;
+}

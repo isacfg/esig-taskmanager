@@ -20,6 +20,84 @@ export class TarefasService {
 
   constructor() {}
 
+  private production = false;
+  public globalTasks: any[] = [];
+  public mockTasks: any[] = [
+    {
+      id: '1',
+      title: 'Tarefa 1',
+      description: 'descrição',
+      prazo: '2023-06-12',
+      prioridade: 'Média',
+      projeto: 'Projeto Amendis',
+      responsavel: 'Pedro',
+      status: 'Concluída',
+      userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+    },
+    {
+      id: '2',
+      title: 'Tarefa 2',
+      description: 'descrição',
+      prazo: '2023-06-12',
+      prioridade: 'Alta',
+      projeto: 'Projeto Amendis',
+      responsavel: 'Pedro',
+      status: 'Em andamento',
+      userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+    },
+    {
+      id: '2',
+      title: 'Tarefa 2',
+      description: 'descrição',
+      prazo: '2023-06-12',
+      prioridade: 'Baixa',
+      projeto: 'Projeto Amendis',
+      responsavel: 'Pedro',
+      status: 'Não iniciada',
+      userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
+    },
+  ];
+
+  async injectTasks(userID: string, res = false, proj = false) {
+    if (this.globalTasks.length === 0 && this.production === true) {
+      this.globalTasks = await this.getTasksByUserID(userID);
+
+      // converter prazo para devolver pro input
+      for (let i = 0; i < this.globalTasks.length; i++) {
+        let s = new Date(this.globalTasks[i].prazo.toDate().getTime());
+        this.globalTasks[i].prazo = s.toISOString().substring(0, 10);
+      }
+    }
+    if (res && this.production === true) {
+      return this.getAllResponsaveis(userID);
+    }
+    if (proj && this.production === true) {
+      return this.getAllProjetos(userID);
+    }
+
+    if (this.production === false) {
+      this.globalTasks = this.mockTasks;
+    }
+
+    return this.globalTasks;
+  }
+
+  pushTask(title, description, prioridade, status, prazo, responsavel, projeto, userID, createdAt) {
+    let task = {
+      title,
+      description,
+      prioridade,
+      status,
+      prazo,
+      responsavel,
+      projeto,
+      userID,
+      createdAt,
+    };
+
+    this.globalTasks.push(task);
+  }
+
   async getTasks() {
     try {
       const querySnapshot = await getDocs(collection(this.db, 'tasks'));
@@ -36,15 +114,13 @@ export class TarefasService {
 
   async getTasksByUserID(userID: string) {
     try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const tasks: any[] = [];
       querySnapshot.forEach((doc) => {
         tasks.push({ id: doc.id, ...doc.data() });
       });
+      console.log('db called');
       return tasks;
     } catch (e) {
       console.error('Erro: ', e);
@@ -55,10 +131,7 @@ export class TarefasService {
   async getAllResponsaveis(userID: string) {
     try {
       // const q = query(collection(this.db, 'tasks'));
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('userID', '==', userID)
-      );
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
       const responsaveis: string[] = [];
       querySnapshot.forEach((doc) => {
@@ -74,156 +147,19 @@ export class TarefasService {
     }
   }
 
-  async getTasksByProjetoUserID(projeto: string, userID: string) {
+  async getAllProjetos(userID: string) {
     try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('projeto', '==', projeto),
-        where('userID', '==', userID)
-      );
+      // const q = query(collection(this.db, 'tasks'));
+      const q = query(collection(this.db, 'tasks'), where('userID', '==', userID));
       const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
+      const projetos: string[] = [];
       querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
+        const projeto = doc.data()['projeto'];
+        if (projeto && !projetos.includes(projeto)) {
+          projetos.push(projeto);
+        }
       });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  // responsavel, status
-  async getTasksByResponsavelStatusUserID(
-    responsavel: string,
-    status: string,
-    userID: string
-  ) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('responsavel', '==', responsavel),
-        where('status', '==', status),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  async getTasksByStatusUserID(status: string, userID: string) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('status', '==', status),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  async getTasksByResponsavelUserID(responsavel: string, userID: string) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('responsavel', '==', responsavel),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  async getTasksByProjetoStatusUserID(
-    projeto: string,
-    status: string,
-    userID: string
-  ) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('projeto', '==', projeto),
-        where('status', '==', status),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  async getTasksByProjetoResponsavelUserID(
-    projeto: string,
-    responsavel: string,
-    userID: string
-  ) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('projeto', '==', projeto),
-        where('responsavel', '==', responsavel),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
-    } catch (e) {
-      console.error('Erro: ', e);
-      return [];
-    }
-  }
-
-  async getTasksByAllUserID(
-    projeto: string,
-    status: string,
-    responsavel: string,
-    userID: string
-  ) {
-    try {
-      const q = query(
-        collection(this.db, 'tasks'),
-        where('projeto', '==', projeto),
-        where('status', '==', status),
-        where('responsavel', '==', responsavel),
-        where('userID', '==', userID)
-      );
-      const querySnapshot = await getDocs(q);
-      const tasks: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tasks.push({ id: doc.id, ...doc.data() });
-      });
-      return tasks;
+      return projetos;
     } catch (e) {
       console.error('Erro: ', e);
       return [];

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TeamComponent } from './team.component';
+import { TopNavComponent } from './top-nav.component';
 
-describe('TeamComponent', () => {
-  let component: TeamComponent;
-  let fixture: ComponentFixture<TeamComponent>;
+describe('TopNavComponent', () => {
+  let component: TopNavComponent;
+  let fixture: ComponentFixture<TopNavComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TeamComponent]
+      declarations: [TopNavComponent]
     });
-    fixture = TestBed.createComponent(TeamComponent);
+    fixture = TestBed.createComponent(TopNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
-import {
-  faPlus,
-  faMagnifyingGlass,
-  faCircleInfo,
-  faPen,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faCircleInfo, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-tasks',
@@ -20,13 +14,13 @@ import {
 export class TasksComponent implements OnInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
-  faPlus = faPlus;
   faSearch = faMagnifyingGlass;
   faInfo = faCircleInfo;
   faEdit = faPen;
   faDelete = faTrash;
 
   arrayResponsaveis = [];
+  arrayProjetos = [];
 
   // criar tarefa
   description: string = '';
@@ -52,26 +46,20 @@ export class TasksComponent implements OnInit {
     } // espera o uid ser preenchido
 
     // pega as tarefas do banco de dados por usuario
-    let tasksR = await this.tarefasService.getTasksByUserID(this.uid);
-
-    // converter prazo para devolver pro input
-    for (let i = 0; i < tasksR.length; i++) {
-      let s = tasksR[i].prazo.toDate();
-      tasksR[i].prazo = s.toISOString().substring(0, 10);
-    }
+    let tasksR = await this.tarefasService.injectTasks(this.uid);
 
     this.tasks = tasksR;
     this.tasksFiltro = tasksR;
-    this.arrayResponsaveis = await this.tarefasService.getAllResponsaveis(
-      this.uid
-    );
+    this.arrayResponsaveis = await this.tarefasService.injectTasks(this.uid, true, false);
+    this.arrayProjetos = await this.tarefasService.injectTasks(this.uid, false, true);
   }
 
   // criar tarefa
   async createTask() {
-    // cria a tarefa no banco de dados
-    let s = new Date(this.prazo);
+    // create task in the database
+    const s = new Date(this.prazo);
     this.prazo = Timestamp.fromDate(s);
+    const createdAt = new Date();
 
     await this.tarefasService.createTask({
       title: this.title,
@@ -82,12 +70,25 @@ export class TasksComponent implements OnInit {
       responsavel: this.responsavel,
       projeto: this.projeto,
       userID: this.uid,
+      createdAt: createdAt.toISOString(),
     });
 
-    // atualiza a lista de tarefas
+    this.tarefasService.pushTask(
+      this.title,
+      this.description,
+      this.prioridade,
+      this.status,
+      this.prazo,
+      this.responsavel,
+      this.projeto,
+      this.uid,
+      createdAt.toISOString()
+    );
+
+    // update task list
     this.getTasks();
 
-    // limpa os campos
+    // clear fields
     this.title = '';
     this.description = '';
     this.prioridade = '';
@@ -96,8 +97,8 @@ export class TasksComponent implements OnInit {
     this.responsavel = '';
     this.projeto = '';
 
-    // fecha o modal
-    let closeBtn = document.getElementById('closeBtn');
+    // close modal
+    const closeBtn = document.getElementById('closeBtn');
     closeBtn?.click();
   }
 
@@ -107,16 +108,7 @@ export class TasksComponent implements OnInit {
   }
 
   // editar tarefa
-  async updateInputs(
-    title,
-    description,
-    prioridade,
-    status,
-    prazo,
-    responsavel,
-    projeto,
-    id
-  ) {
+  async updateInputs(title, description, prioridade, status, prazo, responsavel, projeto, id) {
     this.title = title;
     this.description = description;
     this.prioridade = prioridade;
@@ -186,146 +178,184 @@ export class TasksComponent implements OnInit {
   responsavelSearch: string = 'default';
   statusSearch: string = 'default';
   prioridadeSearch: string = 'default';
+  projetoSearch: string = 'default';
+  lastNDays: string = 'default';
 
-  async search() {
-    // se nada for selecionado, retorna todas as tarefas
-    if (
-      this.responsavelSearch == 'default' &&
-      this.statusSearch == 'default' &&
-      this.prioridadeSearch == 'default' &&
-      this.searchInput == ''
-    ) {
-      // this.getTasks();
-      this.tasks = this.tasksFiltro;
-      // console.log('busca vazia');
-    } else {
-      // this.tasks = this.tasksFiltro.filter((task) =>
-
-      // busca por titulo
-      if (this.searchInput != '') {
-        this.tasks = this.tasksFiltro.filter((task) =>
-          task.title.toLowerCase().includes(this.searchInput.toLowerCase())
-        );
-      }
-
-      // busca por responsavel
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.prioridadeSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.responsavel == this.responsavelSearch
-        );
-        // this.tasks = await this.tarefasService.getTasksByResponsavelUserID(
-        //   this.responsavelSearch,
-        //   this.uid
-        // );
-      }
-
-      // busca por responsavel e status
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.status == this.statusSearch
-        );
-      }
-
-      // busca por responsavel e prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // busca por status
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch == 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.status == this.statusSearch
-        );
-      }
-
-      // busca por status e prioridade
-      if (
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.status == this.statusSearch &&
-            task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // busca por prioridade
-      if (
-        this.prioridadeSearch != 'default' &&
-        this.statusSearch == 'default' &&
-        this.responsavelSearch == 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) => task.prioridade == this.prioridadeSearch
-        );
-      }
-
-      // busca por responsavel, status e prioridade
-      if (
-        this.responsavelSearch != 'default' &&
-        this.statusSearch != 'default' &&
-        this.prioridadeSearch != 'default'
-      ) {
-        this.tasks = this.tasksFiltro.filter(
-          (task) =>
-            task.responsavel == this.responsavelSearch &&
-            task.status == this.statusSearch &&
-            task.prioridade == this.prioridadeSearch
-        );
-      }
+async search() {
+  // if nothing is selected, return all tasks
+  if (
+    this.responsavelSearch == 'default' &&
+    this.statusSearch == 'default' &&
+    this.prioridadeSearch == 'default' &&
+    this.projetoSearch == 'default' &&
+    this.searchInput == '' &&
+    this.lastNDays == 'default'
+  ) {
+    this.tasks = this.tasksFiltro;
+  } else {
+    // search by title
+    if (this.searchInput != '') {
+      this.tasks = this.tasksFiltro.filter((task) =>
+        task.title.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
     }
 
-    // voltar para os inputs vazios
-    this.searchInput = '';
-    this.responsavelSearch = 'default';
-    this.statusSearch = 'default';
-    this.prioridadeSearch = 'default';
+    // search by responsavel
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.responsavel == this.responsavelSearch);
+    }
+
+    // search by responsavel and status
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.responsavel == this.responsavelSearch && task.status == this.statusSearch
+      );
+    }
+
+    // search by responsavel and prioridade
+    if (
+      this.responsavelSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.responsavel == this.responsavelSearch && task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by status
+    if (
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.status == this.statusSearch);
+    }
+
+    // search by status and prioridade
+    if (
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) => task.status == this.statusSearch && task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by prioridade
+    if (
+      this.prioridadeSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.prioridade == this.prioridadeSearch);
+    }
+
+    // search by projeto
+    if (
+      this.projetoSearch != 'default' &&
+      this.statusSearch == 'default' &&
+      this.prioridadeSearch == 'default' &&
+      this.responsavelSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter((task) => task.projeto == this.projetoSearch);
+    }
+
+    // search by responsavel, status and prioridade
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.projetoSearch == 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) =>
+          task.responsavel == this.responsavelSearch &&
+          task.status == this.statusSearch &&
+          task.prioridade == this.prioridadeSearch
+      );
+    }
+
+    // search by responsavel, status, prioridade and projeto
+    if (
+      this.responsavelSearch != 'default' &&
+      this.statusSearch != 'default' &&
+      this.prioridadeSearch != 'default' &&
+      this.projetoSearch != 'default' &&
+      this.lastNDays == 'default'
+    ) {
+      this.tasks = this.tasksFiltro.filter(
+        (task) =>
+          task.responsavel == this.responsavelSearch &&
+          task.status == this.statusSearch &&
+          task.prioridade == this.prioridadeSearch &&
+          task.projeto == this.projetoSearch
+      );
+    }
+
+    // search by createdAt
+    if (this.lastNDays != 'default') {
+      const today = new Date();
+      const daysAgo = new Date(today.getTime() - parseInt(this.lastNDays) * 24 * 60 * 60 * 1000);
+      const createdAtLimit = daysAgo.toISOString();
+      this.tasks = this.tasksFiltro.filter((task) => task.createdAt >= createdAtLimit);
+    }
   }
 
+  // reset search inputs
+  this.searchInput = '';
+  this.responsavelSearch = 'default';
+  this.statusSearch = 'default';
+  this.prioridadeSearch = 'default';
+  this.projetoSearch = 'default';
+  this.lastNDays = 'default';
+}
+
+  private production: boolean = true;
   isLogged: boolean = false;
 
   ngOnInit(): void {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.uid = user.uid;
-        this.isLogged = true;
-        console.log('Usuario logado', this.uid);
-      } else {
-        console.log('Usuario não logado');
-        this.isLogged = false;
-
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 500);
-      }
-    });
-
-    this.getTasks();
+    if (this.production == false) {
+      this.isLogged = true;
+    } else {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.uid = user.uid;
+          this.isLogged = true;
+          console.log('Usuario logado', this.uid);
+        } else {
+          console.log('Usuario não logado');
+          this.isLogged = false;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 500);
+        }
+      });
+      this.getTasks();
+    }
   }
 }
