@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
 
   arrayResponsaveis = [];
   public uid: string = '';
+  public email: string = '';
 
   // pegar tarefas do banco de dados
   async getTasks() {
@@ -107,6 +108,7 @@ export class DashboardComponent implements OnInit {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.uid = user.uid;
+          this.email = user.email;
           this.isLogged = true;
           console.log('Usuario logado', this.uid);
         } else {

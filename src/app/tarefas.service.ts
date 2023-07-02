@@ -42,7 +42,7 @@ export class TarefasService {
       prioridade: 'Alta',
       projeto: 'Projeto Amendis',
       responsavel: 'Pedro',
-      status: 'Concluída',
+      status: 'Em andamento',
       userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
     },
     {
@@ -53,7 +53,7 @@ export class TarefasService {
       prioridade: 'Baixa',
       projeto: 'Projeto Amendis',
       responsavel: 'Pedro',
-      status: 'Concluída',
+      status: 'Não iniciada',
       userID: 'vDJ1fa0ztXYlXyfmKFpHkHHfnPu1',
     },
   ];
