@@ -291,9 +291,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }, 3000);
   }
 
+  prevWidth = 0;
  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+onResize(event: any) {
+  const newWidth = event.target.innerWidth;
+  const widthDiff = Math.abs(this.prevWidth - newWidth);
+  if (widthDiff > 200) {
+    this.prevWidth = newWidth;
     this.chart.destroy();
-   this.createChart();
+    this.createChart();
   }
+}
 }
