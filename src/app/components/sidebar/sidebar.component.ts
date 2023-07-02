@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { faClipboard, faUser } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit {
 
   faPlus = faPlus;
   faKanban = faClipboard;
+  faUser = faUser;
 
   toggleSidebar() {
     // id="abrir-gaveta"
@@ -27,19 +28,36 @@ export class SidebarComponent implements OnInit {
     const dashboard = document.querySelector('.dashboard');
     const kanban = document.querySelector('.kanban');
     const tasks = document.querySelector('.tasks');
+    const perfil = document.querySelector('.perfil');
 
     if (this.router.url === '/') {
+
       dashboard.classList.add('dashboard-img-active');
       kanban.classList.remove('dashboard-img-active');
       tasks.classList.remove('dashboard-img-active');
+      perfil.classList.remove('dashboard-img-active');
+
     } else if (this.router.url === '/kanban') {
+
       kanban.classList.add('dashboard-img-active');
       dashboard.classList.remove('dashboard-img-active');
       tasks.classList.remove('dashboard-img-active');
+      perfil.classList.remove('dashboard-img-active');
+
     } else if (this.router.url === '/tasks') {
+
       tasks.classList.add('dashboard-img-active');
       dashboard.classList.remove('dashboard-img-active');
       kanban.classList.remove('dashboard-img-active');
+      perfil.classList.remove('dashboard-img-active');
+
+    } else if (this.router.url === '/perfil') {
+
+      perfil.classList.add('dashboard-img-active');
+      dashboard.classList.remove('dashboard-img-active');
+      kanban.classList.remove('dashboard-img-active');
+      tasks.classList.remove('dashboard-img-active');
+
     }
   }
 
