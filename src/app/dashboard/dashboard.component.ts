@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef  } from '@angular/core';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
+// import { Chart, CategoryScale } from 'chart.js';
+import {Chart } from 'chart.js/auto';
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +16,6 @@ import { Timestamp } from 'firebase/firestore';
 // Add any additional code here
 export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private tarefasService: TarefasService) { }
-  @ViewChild('myChart') myChart!: Element;
   
 
   tasks = [];
@@ -22,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   numeroTarefasEmAndamento = [];
   numeroTarefasAltaPrioridade = [];
 
-    // criar tarefa
+  // criar tarefa
   description: string = '';
   prazo;
   prioridade: string = '';
@@ -72,7 +75,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-    // criar tarefa
+  // criar tarefa
   async createTask() {
     // create task in the database
     const s = new Date(this.prazo);
@@ -119,6 +122,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const closeBtn = document.getElementById('closeBtn');
     closeBtn?.click();
   }
+
 
   private production: boolean = true;
   isLogged: boolean = false;
@@ -182,6 +186,78 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  
 
-  ngAfterViewInit(): void { }
+  taskCounts() {
+    let td = this.taskDates();
+    let tc = [];
+    td.forEach((date: any) => {
+      const key = `${date.month}-${date.year}`;
+      tc[key] = (tc[key] || 0) + 1;
+    })
+    return tc;
+  }
+
+  taskDates() {
+    // let td = this.tasks
+    let td = [
+      { prazo: '2022-01-01' },
+      { prazo: '2022-01-01' },
+      { prazo: '2022-02-01' },
+      { prazo: '2022-02-01' },
+      { prazo: '2022-03-01' },
+      { prazo: '2022-03-01' },
+      { prazo: '2022-03-01' },
+    ];
+    return td.map(task => {
+      const date = new Date(task.prazo);
+      return {
+        month: date.getMonth(),
+        year: date.getFullYear()
+      }
+    })
+  }
+
+  chart = null;
+  @ViewChild('myChart', { static: true }) myChart: ElementRef;
+  // Chart.registerScaleType('category', CategoryScale);
+
+
+  ngAfterViewInit(): void {
+const taskCounts = this.taskCounts();
+const taskDates = this.taskDates();
+
+setTimeout(() => {
+  // const ctx = this.myChart.nativeElement;
+  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+  console.log(ctx + ' CTX');
+
+  this.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Object.keys(taskCounts),
+      datasets: [{
+        label: 'Number of Tasks',
+        data: Object.values(taskCounts),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          ticks: {
+            callback: (value: any) => {
+              const date = taskDates[value];
+              return `${date.month}-${date.year}`;
+            }
+          },
+        }
+      }
+    }
+  });
+}, 3000);
+  }
 }
