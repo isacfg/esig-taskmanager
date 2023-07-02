@@ -27,7 +27,7 @@ export class TarefasService {
       id: '1',
       title: 'Tarefa 1',
       description: 'descrição',
-      prazo: '2023-06-12',
+      prazo: '2023-07-28',
       prioridade: 'Média',
       projeto: 'Projeto Amendis',
       responsavel: 'Pedro',
@@ -38,7 +38,7 @@ export class TarefasService {
       id: '2',
       title: 'Tarefa 2',
       description: 'descrição',
-      prazo: '2023-06-12',
+      prazo: '2023-07-04',
       prioridade: 'Alta',
       projeto: 'Projeto Amendis',
       responsavel: 'Pedro',
@@ -49,7 +49,7 @@ export class TarefasService {
       id: '2',
       title: 'Tarefa 2',
       description: 'descrição',
-      prazo: '2023-06-12',
+      prazo: '2023-07-12',
       prioridade: 'Baixa',
       projeto: 'Projeto Amendis',
       responsavel: 'Pedro',
@@ -77,6 +77,18 @@ export class TarefasService {
 
     if (this.production === false) {
       this.globalTasks = this.mockTasks;
+    }
+
+    return this.globalTasks;
+  }
+
+  async bypassCache(userID: string) {
+    this.globalTasks = await this.getTasksByUserID(userID);
+
+    // converter prazo para devolver pro input
+    for (let i = 0; i < this.globalTasks.length; i++) {
+      let s = new Date(this.globalTasks[i].prazo.toDate().getTime());
+      this.globalTasks[i].prazo = s.toISOString().substring(0, 10);
     }
 
     return this.globalTasks;

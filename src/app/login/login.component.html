@@ -20,7 +20,8 @@
 
       <input [(ngModel)]="password" type="password" placeholder="Senha"
         class="input input-bordered w-3/4 bg-gray-50 border-slate-300  mt-4" />
-      <a class="btn btn-secondary text-white mt-4 w-3/4" (click)="loginWithEmail(email,password)">ENTRAR</a>
+      <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue mt-4 w-3/4"
+        (click)="loginWithEmail(email,password)">ENTRAR</a>
 
       <div *ngIf="errorMsg" class="w-3/4">
         <div class="alert alert-error mt-4 shadow-lg">

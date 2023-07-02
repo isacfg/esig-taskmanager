@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
 import { Timestamp } from 'firebase/firestore';
+// import { Chart, CategoryScale } from 'chart.js';
+import { Chart } from 'chart.js/auto';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,7 @@ import { Timestamp } from 'firebase/firestore';
   styleUrls: ['./dashboard.component.css'],
 })
 // Add any additional code here
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private tarefasService: TarefasService) {}
 
   tasks = [];
@@ -19,6 +21,15 @@ export class DashboardComponent implements OnInit {
   numeroTarefasConcluidas = [];
   numeroTarefasEmAndamento = [];
   numeroTarefasAltaPrioridade = [];
+
+  // criar tarefa
+  description: string = '';
+  prazo;
+  prioridade: string = '';
+  projeto: string = '';
+  responsavel: string = '';
+  status: string = '';
+  title: string = '';
 
   arrayResponsaveis = [];
   public uid: string = '';
@@ -59,6 +70,54 @@ export class DashboardComponent implements OnInit {
         this.numeroTarefasEmAndamento.push(this.tasks[i]);
       }
     }
+  }
+
+  // criar tarefa
+  async createTask() {
+    // create task in the database
+    const s = new Date(this.prazo);
+    this.prazo = Timestamp.fromDate(s);
+    const createdAt = new Date();
+
+    await this.tarefasService.createTask({
+      title: this.title,
+      description: this.description,
+      prioridade: this.prioridade,
+      status: this.status,
+      prazo: this.prazo,
+      responsavel: this.responsavel,
+      projeto: this.projeto,
+      userID: this.uid,
+      createdAt: createdAt.toISOString(),
+    });
+
+    this.tarefasService.pushTask(
+      this.title,
+      this.description,
+      this.prioridade,
+      this.status,
+      this.prazo,
+      this.responsavel,
+      this.projeto,
+      this.uid,
+      createdAt.toISOString()
+    );
+
+    // update task list
+    this.getTasks();
+
+    // clear fields
+    this.title = '';
+    this.description = '';
+    this.prioridade = '';
+    this.status = '';
+    this.prazo = '';
+    this.responsavel = '';
+    this.projeto = '';
+
+    // close modal
+    const closeBtn = document.getElementById('closeBtn');
+    closeBtn?.click();
   }
 
   private production: boolean = true;
@@ -121,5 +180,120 @@ export class DashboardComponent implements OnInit {
       });
       this.getTasks();
     }
+  }
+
+  taskCounts() {
+    let td = this.taskDates();
+    let tc = [];
+    td.forEach((date: any) => {
+      const key = `${date.month}-${date.year}`;
+      tc[key] = (tc[key] || 0) + 1;
+    });
+    return tc;
+  }
+
+  taskDates() {
+    let td = this.tasks;
+    // console.log(td[0].prazo);
+    // let td = [
+    //   { prazo: '2022-01-01' },
+    //   { prazo: '2022-01-01' },
+    //   { prazo: '2022-02-01' },
+    //   { prazo: '2022-02-01' },
+    //   { prazo: '2022-03-01' },
+    //   { prazo: '2022-03-01' },
+    //   { prazo: '2022-03-01' },
+    // ];
+    return td.map((task) => {
+      const date = new Date(task.prazo);
+      const name = task.title;
+      return {
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        name,
+      };
+    });
+  }
+
+  chart = null;
+  @ViewChild('myChart', { static: true }) myChart: ElementRef;
+  // Chart.registerScaleType('category', CategoryScale);
+
+
+ createChart() {
+  const taskCounts = this.taskCounts();
+   const taskDates = this.taskDates();
+   
+  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+
+  this.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Object.keys(taskCounts),
+      datasets: [
+        {
+          label: 'Número de tarefas por dia',
+          data: Object.values(taskCounts),
+          backgroundColor: '#4ad894',
+          borderColor: '#4ad894',
+          fill: false,
+          tension: 0.1
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          ticks: {
+            callback: (value: any) => {
+              const date = taskDates[value];
+              return `${date.month}-${date.year}`;
+            },
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          backgroundColor: '#fff', 
+          bodyFont: {
+            size: 14,
+            weight: 'bold'
+          },
+          callbacks: {
+            label: (context: any) => {
+              const date = taskDates[context.dataIndex];
+              let names = '';
+              this.tasks.forEach((task) => {
+                const taskDate = new Date(task.prazo);
+                if (
+                  taskDate.getMonth() == date.month &&
+                  taskDate.getFullYear() == date.year
+                ) {
+                  names += task.title + ', ';
+                }
+              });
+              return `${date.month} - ${date.year} -  ${names}`;
+            }, 
+            labelTextColor: (context: any) => {
+              return '#263238'
+            }
+          }
+        }
+      }
+    },
+  });
+}
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.createChart();
+    }, 3000);
+  }
+
+ @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.chart.destroy();
+   this.createChart();
   }
 }

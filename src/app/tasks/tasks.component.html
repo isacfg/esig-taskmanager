@@ -159,10 +159,10 @@
           <div class="flex w-full justify-between">
             <!-- prazo -->
             <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
-              class="w-48cent input-bordered input mt-4 bg-white" />
+              class="w-48cent2 input-bordered input mt-4 bg-white" />
 
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent select-bordered select mt-4 max-w-xs">
+            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent2 select-bordered select mt-4 max-w-xs">
               <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
@@ -302,11 +302,12 @@
           class="btn-secondary btn border-none bg-eDarkGrey capitalize text-eBlack hover:bg-eBlack hover:text-white">
           Cancelar
         </button>
-        <a class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
+        <button id="closeBtnEdit"
+          class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue"
           (click)="updateTarefa()">
           <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
           Editar
-        </a>
+        </button>
       </div>
 
     </form>
