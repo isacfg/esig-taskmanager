@@ -44,6 +44,10 @@
   width: 48%;
 }
 
+.w-48cent2 {
+  width: 48%;
+}
+
 .thead-labels {
   color: #797B7C;
   font-size: 12px;
@@ -108,9 +112,15 @@
   line-height: normal;
 }
 
+
+
 @media (max-width: 768px) {
   .w-48cent {
     width: 100%;
+  }
+
+  .card-mob {
+    width: 100% !important;
   }
 }
 
@@ -136,5 +146,13 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  line-height: normal;
+}
+
+.graph-title {
+  color: #263238;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
   line-height: normal;
 }

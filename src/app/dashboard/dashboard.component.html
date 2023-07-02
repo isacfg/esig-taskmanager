@@ -9,17 +9,17 @@
 
     <!-- adicionar tarefa -->
     <button onclick="my_modal_1.showModal()"
-      class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue">
+      class="btn-secondary btn border-none bg-eBlue capitalize text-white hover:bg-eDarkBlue max-md:mt-2 ">
       <img src="../../assets/square-plus 1.svg" alt="" srcset="" />
       Nova tarefa
     </button>
   </div>
 
   <!-- container stats -->
-  <div class="mx-auto mt-8 flex w-full flex-wrap justify-between ">
+  <div class="mx-auto mt-8 flex w-full flex-wrap justify-between max-md:flex-col max-md:gap-y-4">
 
     <!-- card -->
-    <div class="stats w-35cent max-w-330 ">
+    <div class="stats  card-mob w-35cent max-w-330 ">
       <div class="stat py-8 flex justify-between">
         <div>
           <div class="stat-value text-eBlack">{{ tasks.length }}</div>
@@ -34,7 +34,7 @@
     <!-- fim card -->
 
     <!-- card -->
-    <div class="stats w-35cent max-w-330 ">
+    <div class="stats card-mob  w-35cent max-w-330 ">
       <div class="stat py-8 flex justify-between">
         <div>
           <div class="stat-value text-eBlack">{{ numeroTarefasEmAndamento.length }}</div>
@@ -49,7 +49,7 @@
     <!-- fim card -->
 
     <!-- card -->
-    <div class="stats w-35cent max-w-330 ">
+    <div class="stats  card-mob w-35cent max-w-330 ">
       <div class="stat py-8 flex justify-between">
         <div>
           <div class="stat-value text-eBlack">{{ numeroTarefasConcluidas.length }}</div>
@@ -68,7 +68,7 @@
 
 
   <div class="mx-auto mt-8 flex w-full flex-wrap  ">
-    grafico
+    <h3 class="graph-title"># Tarefas concluídas por dia</h3>
   </div>
 
 
@@ -95,10 +95,10 @@
           <div class="flex w-full justify-between">
             <!-- prazo -->
             <input [(ngModel)]="prazo" name="prazo" type="date" placeholder="Prazo"
-              class="w-48cent input-bordered input mt-4 bg-white" />
+              class="w-48cent2 input-bordered input mt-4 bg-white" />
 
             <!-- prioridade -->
-            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent select-bordered select mt-4 max-w-xs">
+            <select [(ngModel)]="prioridade" name="prioridade" class="w-48cent2 select-bordered select mt-4 max-w-xs">
               <option disabled selected>Prioridade:</option>
               <option>Alta</option>
               <option>Média</option>
