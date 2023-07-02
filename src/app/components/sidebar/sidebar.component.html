@@ -1,69 +1,64 @@
 <div class="drawer lg:drawer-open">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col items-center justify-center">
-
-
-
     <!-- mobile nav -->
-    <div class="w-full bg-eDarkBlue flex items-center p-8  lg:hidden max-md:px-4">
-
+    <div class="flex w-full items-center bg-eDarkBlue p-8 max-md:px-4 lg:hidden">
       <label id="abrir-gaveta" for="my-drawer-2" class="drawer-button">
-        <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer">
+        <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer" />
       </label>
 
-      <img src="../../../assets/logo-esig.svg" alt="Logo eTasks" class="logo-esig ml-8" srcset="">
+      <img src="../../../assets/logo-esig.svg" alt="Logo eTasks" class="logo-esig ml-8" srcset="" />
     </div>
 
-
     <!-- top nav -->
-    <app-top-nav class="w-full bg-white "></app-top-nav>
-
+    <app-top-nav class="w-full bg-white"></app-top-nav>
 
     <!-- conteudo do router injetado aqui -->
     <ng-content class="w-full"></ng-content>
-
-
   </div>
   <div class="drawer-side">
     <label for="my-drawer-2" class="drawer-overlay"></label>
 
-    <div class="bg-eDarkBlue p-4 w-60 flex items-center ">
-      <label (click)="toggleSidebar" for="my-drawer-2" class="cursor-pointer">
-        <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer">
+    <div class="flex w-60 items-center bg-eDarkBlue p-4">
+      <label (click)="(toggleSidebar)" for="my-drawer-2" class="cursor-pointer">
+        <img src="../../../assets/menu-burger.svg" alt="Menu Hamburguer" />
       </label>
-      <img src="../../../assets/logo-esig.svg" alt="Logo eTasks" class="logo-esig ml-8" srcset="">
+      <img src="../../../assets/logo-esig.svg" alt="Logo eTasks" class="logo-esig ml-8" srcset="" />
     </div>
 
-    <ul class="menu p-4 w-60 h-full bg-eBlue ">
-
-      <div class="flex flex-col justify-around gap-y-2 mt-8">
-
+    <ul class="menu h-full w-60 bg-eBlue p-4">
+      <div class="mt-8 flex flex-col justify-around gap-y-2">
         <!-- Sidebar content here -->
-        <li class=" rounded-md "><a id="sidebarItem" class="rounded-md dashboard py-2 text-base font-semibold"
-            routerLink="">
-
-            <img class="dashboard-img" src="../../../assets/table-layout.svg" alt="" srcset="">
-            Dashboard</a>
+        <li class="rounded-md">
+          <a id="sidebarItem" class="dashboard rounded-md py-2 text-base font-semibold" routerLink="">
+            <img class="dashboard-img" src="../../../assets/table-layout.svg" alt="" srcset="" />
+            Dashboard</a
+          >
         </li>
-        <li class=" rounded-md "><a id="sidebarItem" class="rounded-md tasks py-2  text-base font-semibold  "
-            routerLink="tasks">
+        <li class="rounded-md">
+          <a id="sidebarItem" class="tasks rounded-md py-2 text-base font-semibold" routerLink="tasks">
+            <img src="../../../assets/list-timeline.svg" class="dashboard-img" alt="" srcset="" />
 
-            <img src="../../../assets/list-timeline.svg" class="dashboard-img" alt="" srcset="">
-
-            Tarefas</a>
+            Tarefas</a
+          >
         </li>
 
-        <li class=" rounded-md "><a id="sidebarItem" class="rounded-md kanban py-2  text-base font-semibold  "
-            routerLink="kanban">
+        <li class="rounded-md">
+          <a id="sidebarItem" class="kanban rounded-md py-2 text-base font-semibold" routerLink="kanban">
             <fa-icon class="dashboard-img" [icon]="faKanban"></fa-icon>
-            Kanban</a>
+            Kanban</a
+          >
         </li>
 
+        <li class="rounded-md">
+          <a id="sidebarItem" class="perfil rounded-md py-2 text-base font-semibold" routerLink="perfil">
+            <fa-icon class="dashboard-img" [icon]="faUser"></fa-icon>
+            Perfil</a
+          >
+        </li>
       </div>
 
       <!-- <button type="button" class="btn self-start btn-outline btn-error btn-sm mt-20" (click)="logout()">Sair</button> -->
-
     </ul>
-
   </div>
 </div>
