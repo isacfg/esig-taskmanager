@@ -87,6 +87,8 @@ export class TasksComponent implements OnInit {
 
     // update task list
     this.getTasks();
+    this.tasks = await this.tarefasService.bypassCache(this.uid);
+    this.tasksFiltro = this.tasks;
 
     // clear fields
     this.title = '';
@@ -136,6 +138,9 @@ export class TasksComponent implements OnInit {
 
     // atualiza a lista de tarefas
     this.getTasks();
+
+    this.tasks = await this.tarefasService.bypassCache(this.uid);
+    this.tasksFiltro = this.tasks;
 
     // limpa os campos
     this.title = '';

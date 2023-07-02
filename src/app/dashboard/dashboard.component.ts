@@ -20,6 +20,15 @@ export class DashboardComponent implements OnInit {
   numeroTarefasEmAndamento = [];
   numeroTarefasAltaPrioridade = [];
 
+    // criar tarefa
+  description: string = '';
+  prazo;
+  prioridade: string = '';
+  projeto: string = '';
+  responsavel: string = '';
+  status: string = '';
+  title: string = '';
+
   arrayResponsaveis = [];
   public uid: string = '';
   public email: string = '';
@@ -59,6 +68,54 @@ export class DashboardComponent implements OnInit {
         this.numeroTarefasEmAndamento.push(this.tasks[i]);
       }
     }
+  }
+
+    // criar tarefa
+  async createTask() {
+    // create task in the database
+    const s = new Date(this.prazo);
+    this.prazo = Timestamp.fromDate(s);
+    const createdAt = new Date();
+
+    await this.tarefasService.createTask({
+      title: this.title,
+      description: this.description,
+      prioridade: this.prioridade,
+      status: this.status,
+      prazo: this.prazo,
+      responsavel: this.responsavel,
+      projeto: this.projeto,
+      userID: this.uid,
+      createdAt: createdAt.toISOString(),
+    });
+
+    this.tarefasService.pushTask(
+      this.title,
+      this.description,
+      this.prioridade,
+      this.status,
+      this.prazo,
+      this.responsavel,
+      this.projeto,
+      this.uid,
+      createdAt.toISOString()
+    );
+
+    // update task list
+    this.getTasks();
+
+    // clear fields
+    this.title = '';
+    this.description = '';
+    this.prioridade = '';
+    this.status = '';
+    this.prazo = '';
+    this.responsavel = '';
+    this.projeto = '';
+
+    // close modal
+    const closeBtn = document.getElementById('closeBtn');
+    closeBtn?.click();
   }
 
   private production: boolean = true;
