@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { TarefasService } from '../tarefas.service';
@@ -10,8 +10,10 @@ import { Timestamp } from 'firebase/firestore';
   styleUrls: ['./dashboard.component.css'],
 })
 // Add any additional code here
-export class DashboardComponent implements OnInit {
-  constructor(private router: Router, private tarefasService: TarefasService) {}
+export class DashboardComponent implements OnInit, AfterViewInit {
+  constructor(private router: Router, private tarefasService: TarefasService) { }
+  @ViewChild('myChart') myChart!: Element;
+  
 
   tasks = [];
 
@@ -179,4 +181,7 @@ export class DashboardComponent implements OnInit {
       this.getTasks();
     }
   }
+
+
+  ngAfterViewInit(): void { }
 }
