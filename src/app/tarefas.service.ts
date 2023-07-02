@@ -20,7 +20,7 @@ export class TarefasService {
 
   constructor() {}
 
-  private production = false;
+  private production = true;
   public globalTasks: any[] = [];
   public mockTasks: any[] = [
     {
